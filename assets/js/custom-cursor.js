@@ -1,12 +1,14 @@
 class CustomCursor{
     constructor(options){
+        this.status = '';
         this.config = {
             ...{
                 speed: 0.35,
                 className: '',
                 bodyCursor: false,
                 styleEnter: {},
-                styleLeave: {}
+                styleLeave: {},
+                hover: []
             }, ...options
         };
 
@@ -24,7 +26,7 @@ class CustomCursor{
                     width: '40px',
                     height: '40px',
                     border: '2px solid rgba(0,0,0,.5)',
-                    borderRadius: '50%'
+                    borderRadius: '50px'
                 }, ...this.config.styleEnter
             },
             leave: {
@@ -40,21 +42,30 @@ class CustomCursor{
         if(!this.config.bodyCursor){
             document.body.style.cursor = 'none';
         }
-        let isEnter = false;
+
+
         document.addEventListener("mouseleave", e => {
-            console.log('mouseleave')
-            isEnter = false;
             gsap.to(this.cursor, this.style.leave);
         });
 
         document.addEventListener("mouseenter", e => {
-            console.log('mouseenter')
-            isEnter = true;
             gsap.to(this.cursor, this.style.enter);
         });
         window.addEventListener("mousemove", e => {
-            gsap.to(this.cursor, this.style.enter);
+            if(!this.status) gsap.to(this.cursor, this.style.enter);
         });
+
+        for(const hover of this.config.hover){
+            document.querySelector(hover.selector).addEventListener("mouseover", e => {
+                if(typeof hover.callback === 'function'){
+                    this.status = 'hover';
+                    hover.callback(this.cursor);
+                }
+            });
+            document.querySelector(hover.selector).addEventListener("mouseleave", e => {
+                this.status = '';
+            });
+        }
     }
 
     createCursor(){
