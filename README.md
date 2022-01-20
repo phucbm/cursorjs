@@ -1,8 +1,4 @@
-# gulp-boilerplate
-
-A simple boilerplate for building web projects with Gulp.js.
-
-See more gulp setup at 👉 https://github.com/phucbm/gulp-cheatsheet
+# custom-cursor
 
 ## Deployment
 
