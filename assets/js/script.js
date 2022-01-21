@@ -1,13 +1,23 @@
 new CustomCursor({
-    speed: 0.3,
+    speed: 0.15,
     hover: [
         {
             selector: 'h1',
-            callback: cursor => {
+            in: cursor => {
                 gsap.to(cursor, {
-                    width: '1px',
-                    height: '30px',
-                    borderRadius: '1px',
+                    borderRadius: 0,
+                    backgroundColor: 'rgba(0,0,0,.5)',
+                    scaleX: .05,
+                    scaleY: .8,
+                    duration: .2
+                });
+            },
+            out: cursor => {
+                gsap.to(cursor, {
+                    borderRadius: '50%',
+                    backgroundColor: 'rgba(0,0,0,0)',
+                    scaleX: 1,
+                    scaleY: 1,
                     duration: .2
                 });
             }
@@ -16,7 +26,7 @@ new CustomCursor({
 });
 new CustomCursor({
     speed: 0.5,
-    styleEnter: {
+    style: {
         width: '5px',
         height: '5px',
         border: 'none',
