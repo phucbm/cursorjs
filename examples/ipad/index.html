@@ -13,12 +13,14 @@
 
 
 <div class="container">
-    <h1 class="test">Custom cursor</h1>
+    <h1 class="test"><span class="test-magi">Custom cursor</span></h1>
     <p>Vitae rutrum mus consequat <a href="#">vel auctor</a>. Orci proin est vivamus adipiscing magna faucibus per
         phasellus pulvinar.
         Tempor letius iaculis feugiat eros erat. Dignissim in laoreet libero aptent ullamcorper magna commodo
         suspendisse.
-        Egestas commodo integer orci pulvinar class habitant vehicula sociosqu lectus porta magna. Porttitor gravida
+        Egestas commodo integer orci pulvinar class habitant <a href="#">vehicula sociosqu</a> lectus porta magna.
+        Porttitor
+        gravida
         habitant facilisi erat himenaeos consectetuer vivamus maximus interdum euismod.</p>
     <ul>
         <li>Ex si scelerisque molestie penatibus cursus dictumst suscipit curae nam. Magna sed commodo eget potenti non
@@ -39,7 +41,6 @@
 <script src="../../src/gsap.js"></script>
 <script>
     new CustomCursor({
-        //dev:true,
         speed: 1,
         hover: [
             {
@@ -47,6 +48,7 @@
                 in: {
                     borderRadius: 0,
                     backgroundColor: 'rgba(0,0,0,.5)',
+                    width: '15px',
                     scaleY: 1.1,
                     scaleX: .1,
                     duration: .2
@@ -60,20 +62,18 @@
                 }
             },
             {
-                selector: 'a',
-                in: {
-                    borderRadius: 0,
-                    backgroundColor: 'rgba(0,0,0,.5)',
-                    scaleY: 1,
-                    scaleX: 2,
-                    duration: .2
-                },
-                out: {
-                    borderRadius: '50%',
-                    backgroundColor: 'rgba(0,0,0,.3)',
-                    scaleY: 1,
-                    scaleX: 1,
-                    duration: .2
+                selector: '.test-magi, a',
+                magnetic: true,
+                in: data => {
+                    gsap.to(data.cursor, {
+                        width: data.hoverTarget.offsetWidth,
+                        height: data.hoverTarget.offsetHeight,
+                        scaleY: 1,
+                        scaleX: 1,
+                        borderRadius: '4px',
+                        duration: .2,
+                        backgroundColor: 'rgba(0,0,0,.2)',
+                    });
                 }
             }
         ]
