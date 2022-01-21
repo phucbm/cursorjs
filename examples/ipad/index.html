@@ -3,17 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iPad theme - Custom cursor</title>
+    <title>Cursorism ~ iPad</title>
+    <link rel="icon" type="image/x-icon" href="../unicorn.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../style.css">
+    <style>
+        ::selection {
+            color:#fff;
+            background:cornflowerblue;
+        }
+    </style>
 </head>
 <body>
 
 
 <div class="container">
-    <h1 class="test"><span class="test-magi">Custom cursor</span></h1>
+    <h1 class="test">🦄 Cursorism ~ iPad</h1>
     <p>Vitae rutrum mus consequat <a href="#">vel auctor</a>. Orci proin est vivamus adipiscing magna faucibus per
         phasellus pulvinar.
         Tempor letius iaculis feugiat eros erat. Dignissim in laoreet libero aptent ullamcorper magna commodo
@@ -35,50 +42,84 @@
             vulputate.
         </li>
     </ul>
+    <p style="text-align:center">
+        <a class="btn" href="#">Button 1</a>
+        <a class="btn" href="#">Button 2</a>
+        <a class="btn" href="#">Button 3</a>
+    </p>
 </div>
+
+<footer>
+    <p>
+        <a href="/">
+            <img src="https://badgen.net/badge/🦄/home?scale=1.2" alt="github">
+        </a>
+        <a href="https://github.com/phucbm/cursorism">
+            <img src="https://badgen.net/badge/icon/cursorism?icon=github&label=github&scale=1.2" alt="github">
+        </a>
+        <a href="https://greensock.com/" target="_blank">
+            <img src="https://badgen.net/badge/dependency/greensock/61AC27?scale=1.2" alt="greensock">
+        </a>
+    </p>
+</footer>
 
 <script src="../../src/custom-cursor.js"></script>
 <script src="../../src/gsap.js"></script>
 <script>
     new CustomCursor({
-        speed: 1,
+        style: {
+            width: '23px',
+            height: '23px',
+            backgroundColor: 'rgba(0,0,0,.3)',
+            boxShadow: 'none',
+        },
         hover: [
+            // text edit
             {
                 selector: 'p, li',
                 in: {
                     borderRadius: 0,
-                    backgroundColor: 'rgba(0,0,0,.5)',
-                    width: '15px',
-                    scaleY: 1.1,
-                    scaleX: .1,
-                    duration: .2
-                },
-                out: {
-                    borderRadius: '50%',
+                    boxShadow: 'none',
+                    width: '2px',
+                    height: '30px',
                     backgroundColor: 'rgba(0,0,0,.3)',
-                    scaleY: 1,
-                    scaleX: 1,
                     duration: .2
                 }
             },
+            // clickable elements
             {
-                selector: '.test-magi, a',
+                selector: 'a',
                 magnetic: true,
                 in: data => {
                     gsap.to(data.cursor, {
-                        width: data.hoverTarget.offsetWidth * 1.1,
-                        height: data.hoverTarget.offsetHeight * 1.1,
-                        scaleY: 1,
-                        scaleX: 1,
+                        width: data.hoverTarget.offsetWidth + 6,
+                        height: data.hoverTarget.offsetHeight + 4,
                         borderRadius: '4px',
+                        backgroundColor: 'rgba(0,0,0,.05)',
+                        boxShadow: '0 0 0 1px rgba(0,0,0,.2)',
                         duration: .2,
-                        backgroundColor: 'rgba(0,0,0,.2)',
+                    });
+                }
+            },
+            // button
+            {
+                selector: '.btn',
+                magnetic: true,
+                in: data => {
+                    gsap.to(data.cursor, {
+                        width: data.hoverTarget.offsetWidth + 10,
+                        height: data.hoverTarget.offsetHeight + 10,
+                        borderRadius: '4px',
+                        backgroundColor: 'rgba(0,0,0,.01)',
+                        boxShadow: '0 0 0 1px #6495ed',
+                        duration: .2,
                     });
                 }
             }
         ]
     });
 </script>
+
 
 </body>
 </html>

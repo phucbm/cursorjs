@@ -24,11 +24,12 @@ class CustomCursor{
                     zIndex: '9999',
                     position: 'fixed',
                     top: 0,
-                    left: 0, // style
-                    width: '22px',
-                    height: '22px',
+                    left: 0,
+                    // style
+                    width: '15px',
+                    height: '15px',
                     borderRadius: '50%',
-                    backgroundColor: `rgba(0, 0, 0, .3)`
+                    backgroundColor: `rgba(0, 0, 0, .5)`
                 }, ...this.config.style
             }, out: {
                 opacity: 0, duration: .3
@@ -45,6 +46,9 @@ class CustomCursor{
         // remove native cursor on body
         if(!this.config.bodyCursor){
             document.body.style.cursor = 'none';
+            document.querySelectorAll('a[href]').forEach(el => {
+                el.style.cursor = 'none';
+            });
         }
     }
 
@@ -70,7 +74,6 @@ class CustomCursor{
     }
 
     positionUpdate(){
-        // special thanks to Blake Bowen for this code https://codepen.io/GreenSock/pen/WNNNBpo
         const pos = {x: window.innerWidth / 2, y: window.innerHeight / 2};
         this.mouse = {x: pos.x, y: pos.y};
 
@@ -109,9 +112,11 @@ class CustomCursor{
 
         // hover events
         for(const hover of this.config.hover){
-            for(const selector of document.querySelectorAll(hover.selector)){
+            document.querySelectorAll(hover.selector).forEach(el => {
+                el.style.cursor = 'none';
+
                 // mouse enter
-                selector.addEventListener("mouseenter", e => {
+                el.addEventListener("mouseenter", e => {
                     if(this.config.dev) console.log(`hover in [${hover.selector}]`);
 
                     this.status.lastHover = this.status.hover[this.status.hover.length - 1] || hover.selector;
@@ -120,13 +125,13 @@ class CustomCursor{
                 });
 
                 // mouse out
-                selector.addEventListener("mouseleave", e => {
+                el.addEventListener("mouseleave", e => {
                     if(this.config.dev) console.log(`hover out [${hover.selector}]`);
 
                     this.status.hover = this.status.hover.filter(item => item !== hover.selector);
                     this.setCursorHover(e);
                 });
-            }
+            });
         }
     }
 
