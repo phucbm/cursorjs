@@ -5,6 +5,10 @@ body {
     line-height:1.5;
 }
 body:before {content:"";}
+::selection {
+    color:#fff;
+    background:cornflowerblue;
+}
 .container {
     width:100%;
     max-width:768px;
@@ -26,4 +30,4 @@ code {
 footer {
     padding:5vh 20px;
 }
-footer a {text-decoration:none;}
+footer a {text-decoration:none; display:inline-block;}

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cursorism ~ Inner dot</title>
+    <link rel="icon" type="image/x-icon" href="../unicorn.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .carousel {
+            background:#fafafa;
+        }
+
+        .carousel-cell {
+            width:25%;
+            height:200px;
+            background:#8c8;
+            border-radius:5px;
+            counter-increment:carousel-cell;
+            box-shadow:0 0 0 3px #fff;
+        }
+
+        /* cell number */
+        .carousel-cell:before {
+            display:block;
+            text-align:center;
+            content:counter(carousel-cell);
+            line-height:200px;
+            font-size:80px;
+            color:white;
+        }
+    </style>
+</head>
+<body>
+
+
+<main class="container">
+    <h1 class="test">🦄 Cursorism ~ Inner dot</h1>
+    <p>Vitae rutrum mus consequat <a href="#">vel auctor</a>. Orci proin est vivamus adipiscing magna faucibus per
+        phasellus pulvinar.
+        Tempor letius iaculis feugiat eros erat. Dignissim in laoreet libero aptent ullamcorper magna commodo
+        suspendisse.
+        Egestas commodo integer orci pulvinar class habitant <a href="#">vehicula sociosqu</a> lectus porta magna.
+        Porttitor
+        gravida
+        habitant facilisi erat himenaeos consectetuer vivamus maximus interdum euismod.</p>
+    <ul>
+        <li>Ex si scelerisque molestie penatibus cursus dictumst suscipit curae nam. Magna sed commodo eget potenti non
+            congue velit placerat mus metus tellus. Ultrices felis class tellus in netus accumsan si magnis curabitur
+            vivamus.
+        </li>
+        <li>Facilisis laoreet arcu taciti quam dignissim adipiscing. Magnis dictumst odio fames elementum torquent class
+            ipsum pulvinar volutpat.
+        </li>
+        <li>Risus tristique metus pretium vitae amet nam. Euismod curabitur enim sagittis volutpat quisque non integer
+            consectetuer turpis platea cras. Magna nullam sapien odio dolor taciti accumsan efficitur libero porttitor
+            vulputate.
+        </li>
+    </ul>
+    <p style="text-align:center">
+        <a class="btn" href="#">Button 1</a>
+        <a class="btn" href="#">Button 2</a>
+        <a class="btn" href="#">Button 3</a>
+    </p>
+    <br>
+    <!-- Flickity HTML init -->
+    <div class="carousel"
+         data-flickity='{ "cellAlign": "left","contain": "true", "groupCells":"100%"  }'>
+        <div class="carousel-cell"></div>
+        <div class="carousel-cell"></div>
+        <div class="carousel-cell"></div>
+        <div class="carousel-cell"></div>
+        <div class="carousel-cell"></div>
+        <div class="carousel-cell"></div>
+        <div class="carousel-cell"></div>
+        <div class="carousel-cell"></div>
+        <div class="carousel-cell"></div>
+    </div>
+</main>
+
+<footer>
+    <p>
+        <a href="/">
+            <img src="https://badgen.net/badge/🦄/home?scale=1.2" alt="github">
+        </a>
+        <a href="https://github.com/phucbm/cursorism">
+            <img src="https://badgen.net/badge/icon/cursorism?icon=github&label=github&scale=1.2" alt="github">
+        </a>
+        <a href="https://greensock.com/" target="_blank">
+            <img src="https://badgen.net/badge/dependency/greensock/61AC27?scale=1.2" alt="greensock">
+        </a>
+    </p>
+</footer>
+
+<script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+<script src="../../src/custom-cursor.js"></script>
+<script src="../../src/gsap.js"></script>
+<script>
+
+    setTimeout(() => {
+        new CustomCursor({
+            speed: .2,
+            style: {
+                width: '40px',
+                height: '40px',
+                backgroundColor: 'rgba(0,0,0,0)',
+                boxShadow: '0 0 0 2px rgba(0,0,0,.3)',
+            },
+            hover: [
+                // clickable elements
+                {
+                    selector: 'main a, button',
+                    magnetic: true,
+                    in: data => {
+                        const isArrowButton = data.hoverTarget.classList.contains('flickity-button');
+                        const radius = isArrowButton ? '50%' : '4px';
+                        const sizeOffset = isArrowButton ? 10 : 5;
+                        gsap.to(data.cursor, {
+                            width: data.hoverTarget.offsetWidth + sizeOffset,
+                            height: data.hoverTarget.offsetHeight + sizeOffset,
+                            borderRadius: radius,
+                            backgroundColor: 'rgba(0,0,0,.05)',
+                            boxShadow: '0 0 0 1px rgba(0,0,0,.2)'
+                        });
+                    }
+                },
+
+            ]
+        });
+        new CustomCursor({
+            style: {
+                width: '5px',
+                height: '5px',
+                backgroundColor: 'rgba(0,0,0,.3)',
+                backgroundImage: 'none',
+            },
+            hover: [
+                {
+                    selector: '.flickity-viewport',
+                    in: {
+                        width: '40px',
+                        height: '40px',
+                        backgroundColor: 'rgba(0,0,0,0)',
+                        backgroundImage: 'url(../drag-icon.svg)',
+                        backgroundSize: 'contain'
+                    }
+                }
+            ]
+        });
+    }, 100)
+</script>
+
+
+</body>
+</html>

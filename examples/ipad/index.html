@@ -9,17 +9,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../style.css">
-    <style>
-        ::selection {
-            color:#fff;
-            background:cornflowerblue;
-        }
-    </style>
 </head>
 <body>
 
 
-<div class="container">
+<main class="container">
     <h1 class="test">🦄 Cursorism ~ iPad</h1>
     <p>Vitae rutrum mus consequat <a href="#">vel auctor</a>. Orci proin est vivamus adipiscing magna faucibus per
         phasellus pulvinar.
@@ -47,7 +41,7 @@
         <a class="btn" href="#">Button 2</a>
         <a class="btn" href="#">Button 3</a>
     </p>
-</div>
+</main>
 
 <footer>
     <p>
@@ -88,7 +82,7 @@
             },
             // clickable elements
             {
-                selector: 'a',
+                selector: 'main a',
                 magnetic: true,
                 in: data => {
                     gsap.to(data.cursor, {

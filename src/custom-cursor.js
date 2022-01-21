@@ -46,7 +46,7 @@ class CustomCursor{
         // remove native cursor on body
         if(!this.config.bodyCursor){
             document.body.style.cursor = 'none';
-            document.querySelectorAll('a[href]').forEach(el => {
+            document.querySelectorAll('*').forEach(el => {
                 el.style.cursor = 'none';
             });
         }
@@ -97,6 +97,19 @@ class CustomCursor{
             xSet(pos.x);
             ySet(pos.y);
         });
+
+
+        // on Flickity drag
+        if(typeof Flickity === 'function'){
+            setTimeout(() => {
+                const flickity = Flickity.data(document.querySelector('.flickity-enabled'));
+
+                flickity.on('dragMove', (e, mousemove, pointer, moveVector) => {
+                    this.mouse.x = e.clientX;
+                    this.mouse.y = e.clientY;
+                });
+            }, 500);
+        }
     }
 
     eventListener(){
@@ -210,7 +223,7 @@ class CustomCursor{
     }
 
     setCursorStyle(style){
-        gsap.to(this.cursor, style);
+        gsap.to(this.cursor, {...{duration: .2}, ...style});
     }
 
     setCursorIn(){
