@@ -44,7 +44,7 @@
         speed: 1,
         hover: [
             {
-                selector: 'p',
+                selector: 'p, li',
                 in: {
                     borderRadius: 0,
                     backgroundColor: 'rgba(0,0,0,.5)',
@@ -66,8 +66,8 @@
                 magnetic: true,
                 in: data => {
                     gsap.to(data.cursor, {
-                        width: data.hoverTarget.offsetWidth,
-                        height: data.hoverTarget.offsetHeight,
+                        width: data.hoverTarget.offsetWidth * 1.1,
+                        height: data.hoverTarget.offsetHeight * 1.1,
                         scaleY: 1,
                         scaleX: 1,
                         borderRadius: '4px',

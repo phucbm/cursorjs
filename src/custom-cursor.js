@@ -1,16 +1,18 @@
 class CustomCursor{
     constructor(options){
-        this.status = {
-            in: false, hover: [], lastHover: ''
-        };
+        // config
         this.config = {
             ...{
                 dev: false, speed: 1, className: '', bodyCursor: false, style: {}, hover: [],
                 attraction: .2, // 1 is weak, 0 is strong
-                distance: 100, // magnetic area around element [px]
+                distance: 100, // magnetic area around element count from center [px]
             }, ...options
         };
 
+        // data
+        this.status = {
+            in: false, hover: [], lastHover: ''
+        };
         this.style = {
             default: {
                 ...{
@@ -40,13 +42,16 @@ class CustomCursor{
         this.positionUpdate();
         this.eventListener();
 
-
+        // remove native cursor on body
         if(!this.config.bodyCursor){
             document.body.style.cursor = 'none';
         }
     }
 
 
+    /**
+     * Create cursor dev and append to body
+     */
     createCursor(){
         // create new cursor with id
         const id = this.uniqueId('cursor-');
@@ -73,77 +78,28 @@ class CustomCursor{
         const ySet = gsap.quickSetter(this.cursor, "y", "px");
 
         gsap.ticker.add(() => {
-
-
-            // adjust speed for higher refresh monitors
-            const dt = 1.0 - Math.pow(1.0 - this.config.speed, gsap.ticker.deltaRatio());
-
-            pos.x += (this.mouse.x - pos.x) * dt;
-            pos.y += (this.mouse.y - pos.y) * dt;
-
-
             if(this.isMagnetic){
-                const magPos = this.getPosition(this.hoverTarget);
-                xSet(magPos.x);
-                ySet(magPos.y);
+                const magPos = this.getMagneticPosition(this.hoverTarget);
+
+                pos.x = magPos.x;
+                pos.y = magPos.y;
             }else{
-                xSet(pos.x);
-                ySet(pos.y);
+                const dt = 1.0 - Math.pow(1.0 - this.config.speed, gsap.ticker.deltaRatio());
+
+                pos.x += (this.mouse.x - pos.x) * dt;
+                pos.y += (this.mouse.y - pos.y) * dt;
             }
 
+            // set position
+            xSet(pos.x);
+            ySet(pos.y);
         });
-    }
-
-    /**
-     * Get element offsets
-     * https://github.com/jquery/jquery/blob/d0ce00cdfa680f1f0c38460bc51ea14079ae8b07/src/offset.js#L87
-     * @param element : HTMLElement
-     * @returns {{top: *, left: *}|{top: number, left: number}}
-     */
-    getOffset(element = this.cursor){
-        if(!element.getClientRects().length){
-            return {top: 0, left: 0};
-        }
-
-        const rect = element.getBoundingClientRect();
-        const win = element.ownerDocument.defaultView;
-        return {
-            top: rect.top + win.pageYOffset,
-            left: rect.left + win.pageXOffset
-        };
-    }
-
-    distanceFromMouse(el, mouseX = this.mouse.x, mouseY = this.mouse.y){
-        let centerX = this.getOffset(el).left + el.offsetWidth / 2,
-            centerY = this.getOffset(el).top + el.offsetHeight / 2,
-            pointX = mouseX - centerX,
-            pointY = mouseY - centerY,
-            distance = Math.sqrt(Math.pow(pointX, 2) + Math.pow(pointY, 2));
-        return Math.floor(distance);
-    }
-
-    getPosition(el){
-        if(typeof el === 'undefined') return this.mouse;
-
-        let centerX = this.getOffset(el).left + el.offsetWidth / 2,
-            centerY = this.getOffset(el).top + el.offsetHeight / 2,
-            x = Math.floor(centerX - this.mouse.x) * -1 * this.config.attraction,
-            y = Math.floor(centerY - this.mouse.y) * -1 * this.config.attraction,
-            mouseDistance = this.distanceFromMouse(el);
-
-        if(mouseDistance < this.config.distance){
-            return {x: x + centerX, y: y + centerY};
-        }else{
-            return this.mouse;
-        }
-
     }
 
     eventListener(){
         document.addEventListener("mouseleave", e => {
             this.cursorOut(e);
         });
-
         document.addEventListener("mouseenter", e => {
             this.cursorIn(e);
         });
@@ -174,6 +130,10 @@ class CustomCursor{
         }
     }
 
+
+    /**
+     * Cursor actions
+     */
     cursorIn(e){
         if(this.config.dev) console.log('doc in');
         this.status.in = true;
@@ -201,14 +161,11 @@ class CustomCursor{
         }
     }
 
-    getHover(selector){
-        for(const hover of this.config.hover){
-            if(hover.selector === selector){
-                return hover;
-            }
-        }
-        return false;
-    }
+
+    /**
+     * Set cursor style
+     * @param e
+     */
 
     setCursorHover(e){
         const hoverSelector = this.status.hover[this.status.hover.length - 1];
@@ -266,8 +223,22 @@ class CustomCursor{
         this.setCursorStyle(this.style.default);
     }
 
+
+    /**
+     * Helpers
+     */
+
     isEnterStyleDrawn(){
         return this.cursor.style.width === this.style.default.width && this.cursor.style.height === this.style.default.height;
+    }
+
+    getHover(selector){
+        for(const hover of this.config.hover){
+            if(hover.selector === selector){
+                return hover;
+            }
+        }
+        return false;
     }
 
     /**
@@ -275,5 +246,48 @@ class CustomCursor{
      */
     uniqueId(prefix = ''){
         return prefix + (+new Date()).toString(16) + (Math.random() * 100000000 | 0).toString(16);
+    }
+
+    /**
+     * Get element offsets
+     * https://github.com/jquery/jquery/blob/d0ce00cdfa680f1f0c38460bc51ea14079ae8b07/src/offset.js#L87
+     * @param element : HTMLElement
+     * @returns {{top: *, left: *}|{top: number, left: number}}
+     */
+    getOffset(element = this.cursor){
+        if(!element.getClientRects().length){
+            return {top: 0, left: 0};
+        }
+
+        const rect = element.getBoundingClientRect();
+        const win = element.ownerDocument.defaultView;
+        return {
+            top: rect.top + win.pageYOffset,
+            left: rect.left + win.pageXOffset
+        };
+    }
+
+    distanceFromMouseToEl(el, mouseX = this.mouse.x, mouseY = this.mouse.y){
+        let centerX = this.getOffset(el).left + el.offsetWidth / 2,
+            centerY = this.getOffset(el).top + el.offsetHeight / 2,
+            pointX = mouseX - centerX,
+            pointY = mouseY - centerY,
+            distance = Math.sqrt(Math.pow(pointX, 2) + Math.pow(pointY, 2));
+        return Math.floor(distance);
+    }
+
+    getMagneticPosition(el){
+        if(typeof el === 'undefined') return this.mouse;
+
+        const centerX = this.getOffset(el).left + el.offsetWidth / 2,
+            centerY = this.getOffset(el).top + el.offsetHeight / 2,
+            x = Math.floor(centerX - this.mouse.x) * -1 * this.config.attraction,
+            y = Math.floor(centerY - this.mouse.y) * -1 * this.config.attraction,
+            mouseDistance = this.distanceFromMouseToEl(el);
+
+        if(mouseDistance < this.config.distance){
+            return {x: x + centerX, y: y + centerY};
+        }
+        return this.mouse;
     }
 }
