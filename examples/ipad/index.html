@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iPad theme - Custom cursor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+
+<div class="container">
+    <h1 class="test">Custom cursor</h1>
+    <p>Vitae rutrum mus consequat <a href="#">vel auctor</a>. Orci proin est vivamus adipiscing magna faucibus per
+        phasellus pulvinar.
+        Tempor letius iaculis feugiat eros erat. Dignissim in laoreet libero aptent ullamcorper magna commodo
+        suspendisse.
+        Egestas commodo integer orci pulvinar class habitant vehicula sociosqu lectus porta magna. Porttitor gravida
+        habitant facilisi erat himenaeos consectetuer vivamus maximus interdum euismod.</p>
+    <ul>
+        <li>Ex si scelerisque molestie penatibus cursus dictumst suscipit curae nam. Magna sed commodo eget potenti non
+            congue velit placerat mus metus tellus. Ultrices felis class tellus in netus accumsan si magnis curabitur
+            vivamus.
+        </li>
+        <li>Facilisis laoreet arcu taciti quam dignissim adipiscing. Magnis dictumst odio fames elementum torquent class
+            ipsum pulvinar volutpat.
+        </li>
+        <li>Risus tristique metus pretium vitae amet nam. Euismod curabitur enim sagittis volutpat quisque non integer
+            consectetuer turpis platea cras. Magna nullam sapien odio dolor taciti accumsan efficitur libero porttitor
+            vulputate.
+        </li>
+    </ul>
+</div>
+
+<script src="../../src/custom-cursor.js"></script>
+<script src="../../src/gsap.js"></script>
+<script>
+    new CustomCursor({
+        speed: 1,
+        hover: [
+            {
+                selector: 'p',
+                in: {
+                    borderRadius: 0,
+                    backgroundColor: 'rgba(0,0,0,.5)',
+                    scaleY: 1.1,
+                    scaleX: .1,
+                    duration: .2
+                },
+                out: {
+                    borderRadius: '50%',
+                    backgroundColor: 'rgba(0,0,0,.3)',
+                    scaleY: 1,
+                    scaleX: 1,
+                    duration: .2
+                }
+            }
+        ]
+    });
+</script>
+
+</body>
+</html>

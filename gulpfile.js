@@ -11,6 +11,6 @@ gulp.task('serve', function(){
 
     browserSync.init({
         // serve files from root directory
-        server: {baseDir: "./"}
+        server: ["./", "./examples"]
     });
 });

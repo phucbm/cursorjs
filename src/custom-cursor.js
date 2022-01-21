@@ -1,23 +1,18 @@
 class CustomCursor{
     constructor(options){
         this.status = {
-            in: false,
-            hover: ''
+            in: false, hover: ''
         };
         this.config = {
             ...{
-                dev: false,
-                speed: 0.35,
-                className: '',
-                bodyCursor: false,
-                style: {},
-                hover: []
+                dev: false, speed: 1, className: '', bodyCursor: false, style: {}, hover: []
             }, ...options
         };
 
         this.style = {
             default: {
                 ...{
+                    // fixed settings
                     duration: .3,
                     xPercent: -50,
                     yPercent: -50,
@@ -25,20 +20,16 @@ class CustomCursor{
                     zIndex: '9999',
                     position: 'fixed',
                     top: 0,
-                    left: 0,
-                    width: '40px',
-                    height: '40px',
-                    border: '2px solid rgba(0,0,0,.5)',
-                    borderRadius: '50px'
+                    left: 0, // style
+                    width: '22px',
+                    height: '22px',
+                    borderRadius: '50%',
+                    backgroundColor: `rgba(0, 0, 0, .3)`
                 }, ...this.config.style
-            },
-            out: {
-                opacity: 0,
-                duration: .3
-            },
-            in: {
-                opacity: 1,
-                duration: .3
+            }, out: {
+                opacity: 0, duration: .3
+            }, in: {
+                opacity: 1, duration: .3
             },
         };
 
@@ -107,9 +98,16 @@ class CustomCursor{
             // mouse enter
             document.querySelector(hover.selector).addEventListener("mouseenter", e => {
                 if(this.config.dev) console.log(`hover in [${hover.selector}]`);
+
+                // callback function
                 if(typeof hover.in === 'function'){
                     this.status.hover = hover.selector;
                     hover.in(this.cursor);
+                }
+
+                // object
+                if(typeof hover.in === 'object'){
+                    this.setCursorStyle(hover.in);
                 }
             });
 
@@ -119,8 +117,14 @@ class CustomCursor{
                 this.status.hover = '';
                 this.cursorIn(e);
 
+                // callback function
                 if(typeof hover.out === 'function'){
                     hover.out(this.cursor);
+                }
+
+                // object
+                if(typeof hover.out === 'object'){
+                    this.setCursorStyle(hover.out);
                 }
             });
         }
@@ -150,19 +154,23 @@ class CustomCursor{
         }
     }
 
+    setCursorStyle(style){
+        gsap.to(this.cursor, style);
+    }
+
     setCursorIn(){
         if(this.config.dev) console.log('gsap in');
-        gsap.to(this.cursor, this.style.in);
+        this.setCursorStyle(this.style.in);
     }
 
     setCursorOut(){
         if(this.config.dev) console.log('gsap out');
-        gsap.to(this.cursor, this.style.out);
+        this.setCursorStyle(this.style.out);
     }
 
     setCursorDefault(){
         if(this.config.dev) console.log('gsap default');
-        gsap.set(this.cursor, this.style.default);
+        this.setCursorStyle(this.style.default);
     }
 
     isEnterStyleDrawn(){
