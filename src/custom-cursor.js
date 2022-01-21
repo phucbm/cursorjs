@@ -1,7 +1,7 @@
 class CustomCursor{
     constructor(options){
         this.status = {
-            in: false, hover: ''
+            in: false, hover: [], lastHover: ''
         };
         this.config = {
             ...{
@@ -99,33 +99,17 @@ class CustomCursor{
             document.querySelector(hover.selector).addEventListener("mouseenter", e => {
                 if(this.config.dev) console.log(`hover in [${hover.selector}]`);
 
-                // callback function
-                if(typeof hover.in === 'function'){
-                    this.status.hover = hover.selector;
-                    hover.in(this.cursor);
-                }
-
-                // object
-                if(typeof hover.in === 'object'){
-                    this.setCursorStyle(hover.in);
-                }
+                this.status.lastHover = this.status.hover[this.status.hover.length - 1] || hover.selector;
+                this.status.hover.push(hover.selector);
+                this.setCursorHover(e);
             });
 
             // mouse out
             document.querySelector(hover.selector).addEventListener("mouseleave", e => {
                 if(this.config.dev) console.log(`hover out [${hover.selector}]`);
-                this.status.hover = '';
-                this.cursorIn(e);
 
-                // callback function
-                if(typeof hover.out === 'function'){
-                    hover.out(this.cursor);
-                }
-
-                // object
-                if(typeof hover.out === 'object'){
-                    this.setCursorStyle(hover.out);
-                }
+                this.status.hover = this.status.hover.filter(item => item !== hover.selector);
+                this.setCursorHover(e);
             });
         }
     }
@@ -150,6 +134,47 @@ class CustomCursor{
 
         // force in when movement detected
         if(!this.isEnterStyleDrawn() && !this.status.hover.length){
+            this.cursorIn(e);
+        }
+    }
+
+    getHover(selector){
+        for(const hover of this.config.hover){
+            if(hover.selector === selector){
+                return hover;
+            }
+        }
+        return false;
+    }
+
+    setCursorHover(e){
+        const hoverSelector = this.status.hover[this.status.hover.length - 1];
+        if(typeof hoverSelector !== 'undefined'){
+            const hover = this.getHover(hoverSelector);
+
+            // callback function
+            if(typeof hover.in === 'function'){
+                hover.in(this.cursor);
+            }
+
+            // object
+            if(typeof hover.in === 'object'){
+                this.setCursorStyle(hover.in);
+            }
+        }else{
+            if(typeof this.status.lastHover !== 'undefined'){
+                const hover = this.getHover(this.status.lastHover);
+
+                // callback function
+                if(typeof hover.out === 'function'){
+                    hover.out(this.cursor);
+                }
+
+                // object
+                if(typeof hover.out === 'object'){
+                    this.setCursorStyle(hover.out);
+                }
+            }
             this.cursorIn(e);
         }
     }

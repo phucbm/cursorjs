@@ -39,6 +39,7 @@
 <script src="../../src/gsap.js"></script>
 <script>
     new CustomCursor({
+        //dev:true,
         speed: 1,
         hover: [
             {
@@ -48,6 +49,23 @@
                     backgroundColor: 'rgba(0,0,0,.5)',
                     scaleY: 1.1,
                     scaleX: .1,
+                    duration: .2
+                },
+                out: {
+                    borderRadius: '50%',
+                    backgroundColor: 'rgba(0,0,0,.3)',
+                    scaleY: 1,
+                    scaleX: 1,
+                    duration: .2
+                }
+            },
+            {
+                selector: 'a',
+                in: {
+                    borderRadius: 0,
+                    backgroundColor: 'rgba(0,0,0,.5)',
+                    scaleY: 1,
+                    scaleX: 2,
                     duration: .2
                 },
                 out: {
