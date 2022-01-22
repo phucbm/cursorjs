@@ -47,7 +47,8 @@ class CustomCursor{
         this.eventListener();
 
         return {
-            setMousePosition: (x, y) => this.setMousePosition(x, y)
+            setMousePosition: (x, y) => this.setMousePosition(x, y),
+            update: config => this.update(config)
         };
     }
 
@@ -70,6 +71,12 @@ class CustomCursor{
         this.setCursorOut();
 
         if(this.config.dev) console.log(`cursor created #${id}`);
+    }
+
+    update(config){
+        this.config = {...this.config, ...config};
+        this.style.default = {...this.style.default, ...this.config.style};
+        this.setCursorDefault();
     }
 
     setMousePosition(x, y){
