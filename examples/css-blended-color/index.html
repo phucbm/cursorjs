@@ -19,7 +19,10 @@
         phasellus pulvinar.
         Tempor letius iaculis feugiat eros erat. Dignissim in laoreet libero aptent ullamcorper magna commodo
         suspendisse.</p>
-    <img class="image" src="https://picsum.photos/1280/720?random=2">
+
+    <div class="image">
+        <img src="https://picsum.photos/768/432?random=2">
+    </div>
     <ul>
         <li>Ex si scelerisque molestie penatibus cursus dictumst suscipit curae nam. Magna sed commodo eget potenti non
             congue velit placerat mus metus tellus.
@@ -51,11 +54,10 @@
     // init Cursorism
     const config = {
         speed: .2,
-        className: 'cursor-inverted',
         style: {
             width: '60px',
             height: '60px',
-            backgroundColor: '#aa8200',
+            backgroundColor: 'rgba(170,130,0,100)',
             mixBlendMode: 'difference'
         }
     };
@@ -65,16 +67,18 @@
     // GUI
     const guiValue = {
         speed: config.speed,
-        backgroundColor: config.style.backgroundColor,
-        size: 40,
+        bgColor: [170, 130, 0],
+        opacity: 1,
+        size: 60,
         mixBlendMode: config.style.mixBlendMode
     };
     const gui = new dat.GUI({name: 'Cursorism', width: 300, useLocalStorage: true});
     const update = () => {
+        const color = `rgba(${guiValue.bgColor[0]},${guiValue.bgColor[1]},${guiValue.bgColor[2]},${guiValue.opacity})`;
         cursor.update({
             speed: guiValue.speed,
             style: {
-                backgroundColor: guiValue.backgroundColor,
+                backgroundColor: color,
                 width: `${guiValue.size}px`,
                 height: `${guiValue.size}px`,
                 mixBlendMode: guiValue.mixBlendMode
@@ -82,9 +86,10 @@
         });
     }
 
-    gui.add(guiValue, 'speed').step(.05).min(.1).max(1).name('Speed').onChange(update);
+    gui.add(guiValue, 'speed').step(.01).min(.1).max(1).name('Speed').onChange(update);
     gui.add(guiValue, 'size').step(1).min(5).max(100).name('Size [px]').onChange(update);
-    gui.addColor(guiValue, 'backgroundColor').name('Color').onChange(update);
+    gui.addColor(guiValue, 'bgColor').name('Color').onChange(update);
+    gui.add(guiValue, 'opacity').step(.05).min(.05).max(1).name('Opacity').onChange(update);
     gui.add(guiValue, 'mixBlendMode')
         .options(['normal', 'multiply', 'screen', 'overlay', 'darken', 'lighten', 'color-dodge', 'color-burn', 'difference', 'exclusion', 'hue', 'saturation', 'color', 'luminosity'])
         .name('Blend mode').onChange(update);

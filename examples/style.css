@@ -29,7 +29,8 @@ a {color:cornflowerblue;}
     background:cornflowerblue; color:#fff;
     border-radius:4px; padding:10px 30px;
 }
-img.image {max-width:100%; border-radius:5px; display:block; height:432px;}
+.image {box-shadow:0 0 5px rgba(0, 0, 0, .2); border-radius:5px; overflow:hidden; height:432px; background:rgba(0, 0, 0, .05);}
+.image img {max-width:100%; display:block;}
 
 footer {
     padding:5vh 20px;
