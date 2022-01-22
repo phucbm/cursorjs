@@ -3,18 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cursorism ~ iPad</title>
+    <title>Cursorism ~ Inverted color</title>
     <link rel="icon" type="image/x-icon" href="../unicorn.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
     <link rel="stylesheet" href="../style.css">
+    <style>
+        .carousel {
+            background:#fafafa;
+        }
+
+        .carousel-cell {
+            width:25%;
+            height:200px;
+            background:#8c8;
+            border-radius:5px;
+            counter-increment:carousel-cell;
+            box-shadow:0 0 0 3px #fff;
+        }
+
+        /* cell number */
+        .carousel-cell:before {
+            display:block;
+            text-align:center;
+            content:counter(carousel-cell);
+            line-height:200px;
+            font-size:80px;
+            color:white;
+        }
+    </style>
 </head>
 <body>
 
 
 <main class="container">
-    <h1 class="test">🦄 Cursorism ~ iPad</h1>
+    <h1 class="test">🦄 Cursorism ~ Inverted color</h1>
     <p>Vitae rutrum mus consequat <a href="#">vel auctor</a>. Orci proin est vivamus adipiscing magna faucibus per
         phasellus pulvinar.
         Tempor letius iaculis feugiat eros erat. Dignissim in laoreet libero aptent ullamcorper magna commodo
@@ -33,11 +58,19 @@
             consectetuer turpis platea cras.
         </li>
     </ul>
-    <p style="text-align:center">
-        <a class="btn" href="#">Button 1</a>
-        <a class="btn" href="#">Button 2</a>
-        <a class="btn" href="#">Button 3</a>
-    </p>
+    <!-- Flickity HTML init -->
+    <h3>Support Flickity dragging</h3>
+    <div class="carousel">
+        <div class="carousel-cell"></div>
+        <div class="carousel-cell"></div>
+        <div class="carousel-cell"></div>
+        <div class="carousel-cell"></div>
+        <div class="carousel-cell"></div>
+        <div class="carousel-cell"></div>
+        <div class="carousel-cell"></div>
+        <div class="carousel-cell"></div>
+        <div class="carousel-cell"></div>
+    </div>
 </main>
 
 <footer>
@@ -51,64 +84,42 @@
         <a href="https://greensock.com/" target="_blank">
             <img src="https://badgen.net/badge/dependency/greensock/61AC27?scale=1.2" alt="greensock">
         </a>
+        <a href="https://codepen.io/phucbui/pen/wvrVWRp" target="_blank">
+            <img src="https://badgen.net/badge/try this on/codepen/000?scale=1.2" alt="greensock">
+        </a>
     </p>
 </footer>
 
+<script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
 <script src="../../src/custom-cursor.js"></script>
 <script src="../../src/gsap.js"></script>
 <script>
-    new CustomCursor({
-        style: {
-            width: '23px',
-            height: '23px',
-            backgroundColor: 'rgba(0,0,0,.3)',
-            boxShadow: 'none',
-        },
-        hover: [
-            // text edit
-            {
-                selector: 'p, li',
-                in: {
-                    borderRadius: 0,
-                    boxShadow: 'none',
-                    width: '2px',
-                    height: '30px',
-                    backgroundColor: 'rgba(0,0,0,.3)',
-                    duration: .2
-                }
-            },
-            // clickable elements
-            {
-                selector: 'main a',
-                magnetic: true,
-                in: data => {
-                    gsap.to(data.cursor, {
-                        width: data.hoverTarget.offsetWidth + 6,
-                        height: data.hoverTarget.offsetHeight + 4,
-                        borderRadius: '4px',
-                        backgroundColor: 'rgba(0,0,0,.05)',
-                        boxShadow: '0 0 0 1px rgba(0,0,0,.2)',
-                        duration: .2,
-                    });
-                }
-            },
-            // button
-            {
-                selector: '.btn',
-                magnetic: true,
-                in: data => {
-                    gsap.to(data.cursor, {
-                        width: data.hoverTarget.offsetWidth + 10,
-                        height: data.hoverTarget.offsetHeight + 10,
-                        borderRadius: '4px',
-                        backgroundColor: 'rgba(0,0,0,.01)',
-                        boxShadow: '0 0 0 1px #6495ed',
-                        duration: .2,
-                    });
-                }
-            }
-        ]
+    // init Flickity
+    const flkty = new Flickity('.carousel', {
+        cellAlign: 'left',
+        contain: true,
+        groupCells: '100%',
+        wrapAround: true
     });
+
+    // init Cursorism
+    const cursor = new CustomCursor({
+        speed: .2,
+        style: {
+            width: '40px',
+            height: '40px',
+            backgroundColor: 'rgba(0,0,0,.3)',
+        }
+    });
+
+    // on all Flickity drag
+    if(typeof Flickity === 'function'){
+        const flickity = Flickity.data(document.querySelector('.flickity-enabled'));
+        flickity.on('dragMove', (e, mousemove, pointer, moveVector) => {
+            // update mouse position
+            cursor.setMousePosition(e.clientX, e.clientY);
+        });
+    }
 </script>
 
 
