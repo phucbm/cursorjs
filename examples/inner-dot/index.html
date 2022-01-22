@@ -61,15 +61,9 @@
             vulputate.
         </li>
     </ul>
-    <p style="text-align:center">
-        <a class="btn" href="#">Button 1</a>
-        <a class="btn" href="#">Button 2</a>
-        <a class="btn" href="#">Button 3</a>
-    </p>
-    <br>
     <!-- Flickity HTML init -->
-    <div class="carousel"
-         data-flickity='{ "cellAlign": "left","contain": "true", "groupCells":"100%"  }'>
+    <h3>Support Flickity dragging</h3>
+    <div class="carousel">
         <div class="carousel-cell"></div>
         <div class="carousel-cell"></div>
         <div class="carousel-cell"></div>
@@ -93,6 +87,9 @@
         <a href="https://greensock.com/" target="_blank">
             <img src="https://badgen.net/badge/dependency/greensock/61AC27?scale=1.2" alt="greensock">
         </a>
+        <a href="https://codepen.io/phucbui/pen/wvrVWRp" target="_blank">
+            <img src="https://badgen.net/badge/try this on/codepen/000?scale=1.2" alt="greensock">
+        </a>
     </p>
 </footer>
 
@@ -100,58 +97,73 @@
 <script src="../../src/custom-cursor.js"></script>
 <script src="../../src/gsap.js"></script>
 <script>
+    // init Flickity
+    const flkty = new Flickity('.carousel', {
+        cellAlign: 'left',
+        contain: true,
+        groupCells: '100%'
+    });
 
-    setTimeout(() => {
-        new CustomCursor({
-            speed: .2,
-            style: {
-                width: '40px',
-                height: '40px',
-                backgroundColor: 'rgba(0,0,0,0)',
-                boxShadow: '0 0 0 2px rgba(0,0,0,.3)',
-            },
-            hover: [
-                // clickable elements
-                {
-                    selector: 'main a, button',
-                    magnetic: true,
-                    in: data => {
-                        const isArrowButton = data.hoverTarget.classList.contains('flickity-button');
-                        const radius = isArrowButton ? '50%' : '4px';
-                        const sizeOffset = isArrowButton ? 10 : 5;
-                        gsap.to(data.cursor, {
-                            width: data.hoverTarget.offsetWidth + sizeOffset,
-                            height: data.hoverTarget.offsetHeight + sizeOffset,
-                            borderRadius: radius,
-                            backgroundColor: 'rgba(0,0,0,.05)',
-                            boxShadow: '0 0 0 1px rgba(0,0,0,.2)'
-                        });
-                    }
-                },
-
-            ]
-        });
-        new CustomCursor({
-            style: {
-                width: '5px',
-                height: '5px',
-                backgroundColor: 'rgba(0,0,0,.3)',
-                backgroundImage: 'none',
-            },
-            hover: [
-                {
-                    selector: '.flickity-viewport',
-                    in: {
-                        width: '40px',
-                        height: '40px',
-                        backgroundColor: 'rgba(0,0,0,0)',
-                        backgroundImage: 'url(../drag-icon.svg)',
-                        backgroundSize: 'contain'
-                    }
+    // init Cursorism
+    const outer = new CustomCursor({
+        speed: .2,
+        style: {
+            width: '40px',
+            height: '40px',
+            backgroundColor: 'rgba(0,0,0,0)',
+            boxShadow: '0 0 0 2px rgba(0,0,0,.3)',
+        },
+        hover: [
+            // clickable elements
+            {
+                selector: 'main a, button',
+                magnetic: true,
+                in: data => {
+                    const isArrowButton = data.hoverTarget.classList.contains('flickity-button');
+                    const radius = isArrowButton ? '50%' : '4px';
+                    const sizeOffset = isArrowButton ? 10 : 5;
+                    gsap.to(data.cursor, {
+                        width: data.hoverTarget.offsetWidth + sizeOffset,
+                        height: data.hoverTarget.offsetHeight + sizeOffset,
+                        borderRadius: radius,
+                        backgroundColor: 'rgba(0,0,0,.05)',
+                        boxShadow: '0 0 0 1px rgba(0,0,0,.2)'
+                    });
                 }
-            ]
+            },
+
+        ]
+    });
+    const inner = new CustomCursor({
+        style: {
+            width: '5px',
+            height: '5px',
+            backgroundColor: 'rgba(0,0,0,.3)',
+            backgroundImage: 'none',
+        },
+        hover: [
+            {
+                selector: '.flickity-viewport',
+                in: {
+                    width: '40px',
+                    height: '40px',
+                    backgroundColor: 'rgba(0,0,0,0)',
+                    backgroundImage: 'url(../drag-icon.svg)',
+                    backgroundSize: 'contain'
+                }
+            }
+        ]
+    });
+
+    // on all Flickity drag
+    if(typeof Flickity === 'function'){
+        const flickity = Flickity.data(document.querySelector('.flickity-enabled'));
+        flickity.on('dragMove', (e, mousemove, pointer, moveVector) => {
+            // update mouse position
+            outer.setMousePosition(e.clientX, e.clientY);
+            inner.setMousePosition(e.clientX, e.clientY);
         });
-    }, 100)
+    }
 </script>
 
 

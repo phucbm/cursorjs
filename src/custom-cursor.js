@@ -3,7 +3,7 @@ class CustomCursor{
         // config
         this.config = {
             ...{
-                dev: false, speed: 1, className: '', bodyCursor: false, style: {}, hover: [],
+                dev: false, speed: 1, className: '', style: {}, hover: [],
                 attraction: .2, // 1 is weak, 0 is strong
                 distance: 100, // magnetic area around element count from center [px]
             }, ...options
@@ -43,13 +43,9 @@ class CustomCursor{
         this.positionUpdate();
         this.eventListener();
 
-        // remove native cursor on body
-        if(!this.config.bodyCursor){
-            document.body.style.cursor = 'none';
-            document.querySelectorAll('*').forEach(el => {
-                el.style.cursor = 'none';
-            });
-        }
+        return {
+            setMousePosition: (x, y) => this.setMousePosition(x, y)
+        };
     }
 
 
@@ -71,6 +67,11 @@ class CustomCursor{
         this.setCursorOut();
 
         if(this.config.dev) console.log(`cursor created #${id}`);
+    }
+
+    setMousePosition(x, y){
+        this.mouse.x = x;
+        this.mouse.y = y;
     }
 
     positionUpdate(){
@@ -97,19 +98,6 @@ class CustomCursor{
             xSet(pos.x);
             ySet(pos.y);
         });
-
-
-        // on Flickity drag
-        if(typeof Flickity === 'function'){
-            setTimeout(() => {
-                const flickity = Flickity.data(document.querySelector('.flickity-enabled'));
-
-                flickity.on('dragMove', (e, mousemove, pointer, moveVector) => {
-                    this.mouse.x = e.clientX;
-                    this.mouse.y = e.clientY;
-                });
-            }, 500);
-        }
     }
 
     eventListener(){
