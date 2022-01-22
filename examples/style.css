@@ -1,4 +1,6 @@
 * {cursor:none;}
+.dg.ac {z-index:99999 !important;}
+.dg.ac, .dg.ac * {cursor:auto;}
 body {
     background-color:#fff; color:#000; margin:0; min-height:100vh;
     display:flex; align-items:center; justify-content:space-between; flex-direction:column;
@@ -21,12 +23,13 @@ code {
     padding:10px; border-radius:5px;
     font-size:16px;
 }
-
+a {color:cornflowerblue;}
 .btn {
     text-decoration:none;
     background:cornflowerblue; color:#fff;
     border-radius:4px; padding:10px 30px;
 }
+img.image {max-width:100%; border-radius:5px; display:block; height:432px;}
 
 footer {
     padding:5vh 20px;
