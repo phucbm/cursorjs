@@ -6,10 +6,13 @@ class CustomCursor{
                 dev: false, speed: 1, className: '', style: {}, hover: [],
                 attraction: .2, // 1 is weak, 0 is strong
                 distance: 100, // magnetic area around element count from center [px]
+                onChange: data => {
+                }
             }, ...options
         };
 
         // data
+        this.mouse = {x: 0, y: 0};
         this.status = {
             in: false, hover: [], lastHover: ''
         };
@@ -72,11 +75,15 @@ class CustomCursor{
     setMousePosition(x, y){
         this.mouse.x = x;
         this.mouse.y = y;
+
+        if(typeof this.config.onChange === 'function'){
+            this.config.onChange({mouse: this.mouse});
+        }
     }
 
     positionUpdate(){
         const pos = {x: window.innerWidth / 2, y: window.innerHeight / 2};
-        this.mouse = {x: pos.x, y: pos.y};
+        this.setMousePosition(pos.x, pos.y);
 
         const xSet = gsap.quickSetter(this.cursor, "x", "px");
         const ySet = gsap.quickSetter(this.cursor, "y", "px");
@@ -155,8 +162,7 @@ class CustomCursor{
     }
 
     cursorMoving(e){
-        this.mouse.x = e.x;
-        this.mouse.y = e.y;
+        this.setMousePosition(e.x, e.y);
 
         // force in when movement detected
         if(!this.isEnterStyleDrawn() && !this.status.hover.length){
