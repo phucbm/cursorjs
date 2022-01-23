@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cursorism</title>
+    <title>Cursor.js - Customize mouse cursor</title>
     <link rel="icon" type="image/x-icon" href="unicorn.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,16 +13,17 @@
 <body>
 
 <div class="container">
-    <h1>Cursorism</h1>
-    <p>🦄 Customize mouse cursor with GreenSock animation</p>
-    <p>Cursorism is a light-weight JavaScript library which provides the ability to transform your cursor(s) based on
-        events. Special thanks to <a href="https://greensock.com/" target="_blank">GreenSock</a> for the smoothness.</p>
+    <h1>🦄 Cursor.js</h1>
+    <p>Cursor.js is a light-weight JavaScript library which provides the ability to change your cursor based on hover
+        targets. This library relies on <a href="https://greensock.com/" target="_blank">GreenSock</a> to handle the
+        frame update and animation.</p>
     <p>In this page, you're seeing the default cursor style that achieves by running:</p>
     <code>new CustomCursor();</code>
-    <p>More styles below:</p>
+    <p>Plus, you can adjust the cursor directly from the panel in the top right corner of this page ↗️</p>
+    <p>And here's some more style that I've made:</p>
     <ul>
-        <li><a href="/ipad">iPad cursor</a></li>
-        <li><a href="/inner-dot">Circle with inner dot</a></li>
+        <li><a href="/ipad">iPad style</a></li>
+        <li><a href="/ring">Ring style</a></li>
         <li><a href="/css-blended-color">CSS Blended Color</a></li>
     </ul>
 </div>
@@ -30,22 +31,27 @@
 <footer>
     <p>
         <a href="/">
-            <img src="https://badgen.net/badge/🦄/home?scale=1.2" alt="github">
+            <img src="https://badgen.net/badge/🦄/home?scale=1.2" alt="home">
         </a>
         <a href="https://github.com/phucbm/cursorism">
-            <img src="https://badgen.net/badge/icon/cursorism?icon=github&label=github&scale=1.2" alt="github">
+            <img src="https://badgen.net/badge/icon/Cursor.js?icon=github&label=github&color=6495ED&scale=1.2"
+                 alt="github">
         </a>
         <a href="https://greensock.com/" target="_blank">
-            <img src="https://badgen.net/badge/dependency/greensock/61AC27?scale=1.2" alt="greensock">
+            <img src="https://badgen.net/badge/thanks to/GreenSock 💪/61AC27?scale=1.2" alt="greensock">
+        </a>
+        <a href="https://github.com/phucbm" target="_blank">
+            <img src="https://badgen.net/badge/made with 🧡 by/phucbm/6495ED?scale=1.2" alt="phucbm">
         </a>
     </p>
+
 </footer>
 
 <script src="../src/dat.gui.min.js"></script>
 <script src="../src/custom-cursor.js"></script>
 <script src="../src/gsap.js"></script>
 <script>
-    // init Cursorism
+    // init Cursor.js
     const cursor = new CustomCursor();
 
     // GUI
@@ -64,7 +70,7 @@
         opacity: .5,
         size: 15,
     };
-    const gui = new dat.GUI({name: 'Cursorism', width: 300, useLocalStorage: true});
+    const gui = new dat.GUI({name: 'Cursor.js', width: 300, useLocalStorage: true});
     const update = () => {
         const color = `rgba(${guiValue.bgColor[0]},${guiValue.bgColor[1]},${guiValue.bgColor[2]},${guiValue.opacity})`;
         cursor.update({
