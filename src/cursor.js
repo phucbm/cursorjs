@@ -1,4 +1,4 @@
-class CustomCursor{
+class Cursor{
     constructor(options){
         // config
         this.config = {

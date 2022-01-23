@@ -93,7 +93,7 @@
 </footer>
 
 <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
-<script src="../../src/custom-cursor.js"></script>
+<script src="../../src/cursor.js"></script>
 <script src="../../src/gsap.js"></script>
 <script>
     // init Flickity
@@ -105,7 +105,7 @@
     });
 
     // init Cursor.js
-    const outer = new CustomCursor({
+    const outer = new Cursor({
         speed: .2,
         style: {
             width: '40px',
@@ -134,7 +134,7 @@
 
         ]
     });
-    const inner = new CustomCursor({
+    const inner = new Cursor({
         style: {
             width: '5px',
             height: '5px',
