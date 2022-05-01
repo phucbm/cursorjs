@@ -1,3 +1,9 @@
+/**!
+ * Gsap CursorJS
+ * @author: phucbm
+ */
+
+
 import gsap from "gsap";
 
 export class Cursor{
