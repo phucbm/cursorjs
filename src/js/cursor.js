@@ -1,4 +1,6 @@
-class Cursor{
+import gsap from "gsap";
+
+export class Cursor{
     constructor(options){
         // config
         this.config = {
