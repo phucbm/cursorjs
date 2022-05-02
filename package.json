@@ -1,6 +1,6 @@
 {
   "name": "gsap-cursor",
-  "version": "0.0.7",
+  "version": "1.0.0",
   "description": "JavaScript + GreenSock customize mouse cursor with inertia for modern browsers.",
   "repository": {
     "type": "git",
