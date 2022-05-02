@@ -1,43 +1,49 @@
 # 🦄 Cursor.js
 
-> ### JavaScript + GreenSock customize mouse cursor with inertia for modern browsers.
+> ### Customize mouse cursor completely with JS, powered by GSAP.
 
-[![release](https://badgen.net/github/release/phucbm/Cursor.js/?cache=600)](https://github.com/phucbm/lipsum-generator/releases/latest)
+[![npm-version](https://badgen.net/npm/v/gsap-cursor?cache=600)](https://www.npmjs.com/package/gsap-cursor)
+[![total-download](https://badgen.net/npm/dt/gsap-cursor?cache=600)](https://www.npmjs.com/package/gsap-cursor)
 [![Made in Vietnam](https://raw.githubusercontent.com/webuild-community/badge/master/svg/made.svg)](https://webuild.community)
 [![jsdelivr](https://data.jsdelivr.com/v1/package/gh/phucbm/Cursor.js/badge?style=rounded)](https://www.jsdelivr.com/package/gh/phucbm/Cursor.js)
 [![license](https://badgen.net/github/license/phucbm/Cursor.js/)](https://github.com/phucbm/Cursor.js/blob/main/LICENSE)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/9d9b7120-8c9d-486d-b53e-7fa938ce5c78/deploy-status)](https://app.netlify.com/sites/cursorjs/deploys)
 
+Key features:
 
-Features include:
-
-- Change native cursor using **GreenSock**.
-- Change cursor **style based on hover targets**.
-
-## Installation
-
-```html
-<!-- GreenSock -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
-
-<!-- Cursor.js -->
-<script src="https://cdn.jsdelivr.net/gh/phucbm/cursor.js/src/cursor.min.js"></script>
-```
+- Customize native cursor with JS.
+- Update cursor style when hover on specific elements.
 
 Demo 👉 https://cursorjs.netlify.app
 
 ![Screen Recording 2022-01-23 at 20 44 49](https://user-images.githubusercontent.com/14942380/150682675-cda01eca-f8d9-4faf-9cd3-611a9ca550e2.gif)
 
-## Usage
+## Installation
 
-Default style
+### From NPM
+
+```shell
+npm i gsap-cursor
+```
 
 ```js
-// init
+import {Cursor} from "gsap-cursor";
+
 new Cursor();
 ```
 
-Custom style
+### From CDN
+
+```html
+<!-- UNPKG (GSAP included) -->
+<script src="https://unpkg.com/gsap-cursor/dist/gsap-cursor.min.js"></script>
+```
+
+```js
+new Cursor();
+```
+
+## Configuration
 
 ```js
 const config = {
@@ -96,16 +102,26 @@ const cursor = new Cursor(config);
 
 ## Deployment
 
-Install gulp
+### Development
 
 ```shell
 npm install
 ```
 
-And start server
+```shell
+npm run dev
+```
+
+### Production
 
 ```shell
-gulp serve
+npm run build
+```
+
+### Publish to NPM
+
+```shell
+npm run publish
 ```
 
 ## License

@@ -1,4 +1,14 @@
-class Cursor{
+/**!
+ * Cursor.js 1.0.0 (with GSAP)
+ * https://github.com/phucbm/Cursor.js
+ * MIT License
+ * Copyright (c) 2022 Minh-Phuc Bui
+ */
+
+
+import gsap from "gsap";
+
+export class Cursor{
     constructor(options){
         // config
         this.config = {
