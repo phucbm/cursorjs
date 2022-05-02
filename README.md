@@ -32,19 +32,18 @@ import {Cursor} from "gsap-cursor";
 new Cursor();
 ```
 
-### UMD version
+### From CDN
 
 ```html
-<!-- GreenSock -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
-
-<!-- Cursor.js -->
-<script src="https://cdn.jsdelivr.net/gh/phucbm/cursor.js/src/cursor.min.js"></script>
+<!-- UNPKG (GSAP included) -->
+<script src="https://unpkg.com/gsap-cursor/dist/gsap-cursor.min.js"></script>
 ```
 
-## Usage
+```js
+new Cursor();
+```
 
-Custom style
+## Configuration
 
 ```js
 const config = {
@@ -113,10 +112,16 @@ npm install
 npm run dev
 ```
 
-### Production build
+### Production
 
 ```shell
 npm run build
+```
+
+### Publish to NPM
+
+```shell
+npm run publish
 ```
 
 ## License

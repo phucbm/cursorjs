@@ -6,11 +6,9 @@ module.exports = {
     devtool: false,
     entry: "./src/js/cursor.js",
     output: {
-        filename: 'gsap-cursor.umd.js',
-        library: {
-            type: 'umd',
-            name: 'gsap-cursor',
-        },
+        filename: 'gsap-cursor.min.js',
+        libraryTarget: 'umd',
+        umdNamedDefine: true,
         // prevent error: `Uncaught ReferenceError: self is not define`
         globalObject: 'this',
     },
@@ -19,7 +17,7 @@ module.exports = {
             patterns: [
                 {
                     from: "./src/js/cursor.js",
-                    to: "./gsap-cursor.js"
+                    to: "./gsap-cursor.module.js"
                 },
             ],
         }),
