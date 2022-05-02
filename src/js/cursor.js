@@ -1,6 +1,8 @@
 /**!
- * Gsap CursorJS
- * @author: phucbm
+ * Cursor.js 0.0.4 (with GSAP)
+ * https://github.com/phucbm/Cursor.js
+ * MIT License
+ * Copyright (c) 2022 Minh-Phuc Bui
  */
 
 

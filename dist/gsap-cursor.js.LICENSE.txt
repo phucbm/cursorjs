@@ -1,4 +1,0 @@
-/**!
- * Gsap CursorJS
- * @author: phucbm
-*/
