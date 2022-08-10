@@ -59,7 +59,8 @@ export class Cursor{
 
         return {
             setMousePosition: (x, y) => this.setMousePosition(x, y),
-            update: config => this.update(config)
+            update: config => this.update(config),
+            cursor: this.cursor
         };
     }
 
