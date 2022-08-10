@@ -17,6 +17,7 @@ export class Cursor{
                 bounds: document,
                 attraction: .2, // 1 is weak, 0 is strong
                 distance: 100, // magnetic area around element count from center [px]
+                touchDisabled: true,
                 onChange: data => {
                 }
             }, ...options
@@ -170,20 +171,38 @@ export class Cursor{
      * Cursor actions
      */
     cursorIn(e){
-        if(this.config.dev) console.log('doc in');
+        // touch disabled
+        if(this.config.touchDisabled && this.isTouch(e)){
+            if(this.config.dev) console.log('ignore in bounds: touch screen disabled', e);
+            return;
+        }
+
+        if(this.config.dev) console.log('in bounds', e);
         this.status.in = true;
         this.setCursorDefault();
         this.setCursorIn();
     }
 
     cursorOut(e){
-        if(this.config.dev) console.log('doc out');
+        // touch disabled
+        if(this.config.touchDisabled && this.isTouch(e)){
+            if(this.config.dev) console.log('ignore in bounds: touch screen disabled', e);
+            return;
+        }
+
+        if(this.config.dev) console.log('out bounds', e, this.isTouch(e));
         this.status.in = false;
         this.setCursorDefault();
         this.setCursorOut();
     }
 
     cursorMoving(e){
+        // touch disabled
+        if(this.config.touchDisabled && this.isTouch(e)){
+            if(this.config.dev) console.log('ignore in bounds: touch screen disabled', e);
+            return;
+        }
+
         this.setMousePosition(e.x, e.y);
 
         // force in when movement detected
@@ -261,6 +280,12 @@ export class Cursor{
     /**
      * Helpers
      */
+    isTouch(){
+        // https://stackoverflow.com/a/4819886/6453822
+        return (('ontouchstart' in window) ||
+            (navigator.maxTouchPoints > 0) ||
+            (navigator.msMaxTouchPoints > 0));
+    }
 
     isEnterStyleDrawn(){
         return this.cursor.style.width === this.style.default.width && this.cursor.style.height === this.style.default.height;
