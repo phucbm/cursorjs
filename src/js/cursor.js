@@ -73,6 +73,7 @@ export class Cursor{
         const el = document.createElement('div');
         el.setAttribute("id", id);
         el.setAttribute("class", `custom-cursor ${this.config.className}`);
+        el.setAttribute("style", `width:0;height:0;transform:translate(0,0);`);
 
         // assign cursor
         document.body.appendChild(el);
