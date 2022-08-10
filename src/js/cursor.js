@@ -14,6 +14,7 @@ export class Cursor{
         this.config = {
             ...{
                 dev: false, speed: 1, className: '', style: {}, hover: [],
+                bounds: document,
                 attraction: .2, // 1 is weak, 0 is strong
                 distance: 100, // magnetic area around element count from center [px]
                 onChange: data => {
@@ -125,13 +126,15 @@ export class Cursor{
     }
 
     eventListener(){
-        document.addEventListener("mouseleave", e => {
+        const bounds = this.config.bounds;
+
+        bounds.addEventListener("mouseleave", e => {
             this.cursorOut(e);
         });
-        document.addEventListener("mouseenter", e => {
+        bounds.addEventListener("mouseenter", e => {
             this.cursorIn(e);
         });
-        window.addEventListener("mousemove", e => {
+        bounds.addEventListener("mousemove", e => {
             this.cursorMoving(e);
         });
 
