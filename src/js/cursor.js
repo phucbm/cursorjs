@@ -17,7 +17,7 @@ export class Cursor{
                 bounds: document,
                 attraction: .2, // 1 is weak, 0 is strong
                 distance: 100, // magnetic area around element count from center [px]
-                touchDisabled: true,
+                touchDisabled: false,
                 onChange: data => {
                 }
             }, ...options
