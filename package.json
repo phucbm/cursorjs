@@ -3,7 +3,7 @@
   "outputFilename": "gsap-cursor",
   "prettyName": "GSAP mouse cursor",
   "codeName": "Cursor",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "",
   "homepage": "https://github.com/phucbm/gsap-cursor",
   "repository": {
@@ -23,8 +23,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "webpack serve --config config/webpack.dev.js",
-    "build": "webpack --config config/webpack.build.js",
-    "build-dev": "cross-env ENTRY=dev webpack --config config/webpack.build.js",
+    "build": "cross-env ENTRY=dev webpack --config config/webpack.build.js",
     "prod": "webpack --config config/webpack.prod.js && cross-env TARGET=module webpack --config config/webpack.prod.js",
     "publish": "npm run prod & npm publish"
   },
