@@ -1,3 +1,6 @@
+import {uniqueId} from "./utils";
+import {getHover, getMagneticPosition} from "./helpers";
+
 export class Cursor{
     constructor(options){
         // config
@@ -58,7 +61,7 @@ export class Cursor{
      */
     createCursor(){
         // create new cursor with id
-        const id = this.uniqueId('cursor-');
+        const id = uniqueId('cursor-');
         const el = document.createElement('div');
         el.setAttribute("id", id);
         el.setAttribute("class", `custom-cursor ${this.config.className}`);
@@ -97,7 +100,7 @@ export class Cursor{
 
         gsap.ticker.add(() => {
             if(this.isMagnetic){
-                const magPos = this.getMagneticPosition(this.hoverTarget);
+                const magPos = getMagneticPosition(this, this.hoverTarget);
 
                 pos.x = magPos.x;
                 pos.y = magPos.y;
@@ -172,7 +175,7 @@ export class Cursor{
         this.setMousePosition(e.x, e.y);
 
         // force in when movement detected
-        if(!this.isEnterStyleDrawn() && !this.status.hover.length){
+        if(!isEnterStyleDrawn(this) && !this.status.hover.length){
             this.cursorIn(e);
         }
         if(this.status.hover.length && this.hoverTarget){
@@ -189,7 +192,7 @@ export class Cursor{
     setCursorHover(e){
         const hoverSelector = this.status.hover[this.status.hover.length - 1];
         if(typeof hoverSelector !== 'undefined'){
-            const hover = this.getHover(hoverSelector);
+            const hover = getHover(hoverSelector);
             this.hoverTarget = e.target || this.hoverTarget;
 
             // callback function
@@ -206,7 +209,7 @@ export class Cursor{
             this.isMagnetic = typeof hover.magnetic === 'boolean' && hover.magnetic;
         }else{
             if(typeof this.status.lastHover !== 'undefined'){
-                const hover = this.getHover(this.status.lastHover);
+                const hover = getHover(this.status.lastHover, this.config.hover);
 
                 // callback function
                 if(typeof hover.out === 'function'){
@@ -240,73 +243,5 @@ export class Cursor{
     setCursorDefault(){
         if(this.config.dev) console.log('gsap default');
         this.setCursorStyle(this.style.default);
-    }
-
-
-    /**
-     * Helpers
-     */
-
-    isEnterStyleDrawn(){
-        return this.cursor.style.width === this.style.default.width && this.cursor.style.height === this.style.default.height;
-    }
-
-    getHover(selector){
-        for(const hover of this.config.hover){
-            if(hover.selector === selector){
-                return hover;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Generate unique ID
-     */
-    uniqueId(prefix = ''){
-        return prefix + (+new Date()).toString(16) + (Math.random() * 100000000 | 0).toString(16);
-    }
-
-    /**
-     * Get element offsets
-     * https://github.com/jquery/jquery/blob/d0ce00cdfa680f1f0c38460bc51ea14079ae8b07/src/offset.js#L87
-     * @param element : HTMLElement
-     * @returns {{top: *, left: *}|{top: number, left: number}}
-     */
-    getOffset(element = this.cursor){
-        if(!element.getClientRects().length){
-            return {top: 0, left: 0};
-        }
-
-        const rect = element.getBoundingClientRect();
-        const win = element.ownerDocument.defaultView;
-        return {
-            top: rect.top + win.pageYOffset,
-            left: rect.left + win.pageXOffset
-        };
-    }
-
-    distanceFromMouseToEl(el, mouseX = this.mouse.x, mouseY = this.mouse.y){
-        let centerX = this.getOffset(el).left + el.offsetWidth / 2,
-            centerY = this.getOffset(el).top + el.offsetHeight / 2,
-            pointX = mouseX - centerX,
-            pointY = mouseY - centerY,
-            distance = Math.sqrt(Math.pow(pointX, 2) + Math.pow(pointY, 2));
-        return Math.floor(distance);
-    }
-
-    getMagneticPosition(el){
-        if(typeof el === 'undefined') return this.mouse;
-
-        const centerX = this.getOffset(el).left + el.offsetWidth / 2,
-            centerY = this.getOffset(el).top + el.offsetHeight / 2,
-            x = Math.floor(centerX - this.mouse.x) * -1 * this.config.attraction,
-            y = Math.floor(centerY - this.mouse.y) * -1 * this.config.attraction,
-            mouseDistance = this.distanceFromMouseToEl(el);
-
-        if(mouseDistance < this.config.distance){
-            return {x: x + centerX, y: y + centerY};
-        }
-        return this.mouse;
     }
 }
