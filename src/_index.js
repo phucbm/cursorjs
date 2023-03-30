@@ -1,12 +1,17 @@
 import {uniqueId} from "./utils";
-import {getHover, getMagneticPosition} from "./helpers";
+import {getHover, isEnterStyleDrawn} from "./helpers";
+import {eventListener, setMousePosition, watchMousePosition} from "./mouse-position";
 
 export class Cursor{
     constructor(options){
         // config
         this.config = {
             ...{
-                dev: false, speed: 1, className: '', style: {}, hover: [],
+                dev: false,
+                speed: 1,
+                className: '',
+                style: {},
+                hover: [],
                 attraction: .2, // 1 is weak, 0 is strong
                 distance: 100, // magnetic area around element count from center [px]
                 onChange: data => {
@@ -17,7 +22,9 @@ export class Cursor{
         // data
         this.mouse = {x: 0, y: 0};
         this.status = {
-            in: false, hover: [], lastHover: ''
+            in: false,
+            hover: [],
+            lastHover: ''
         };
         this.style = {
             default: {
@@ -46,11 +53,11 @@ export class Cursor{
 
 
         this.createCursor();
-        this.positionUpdate();
-        this.eventListener();
+        watchMousePosition(this);
+        eventListener(this);
 
         return {
-            setMousePosition: (x, y) => this.setMousePosition(x, y),
+            setMousePosition: (x, y) => setMousePosition(this, x, y),
             update: config => this.update(config)
         };
     }
@@ -76,81 +83,15 @@ export class Cursor{
         if(this.config.dev) console.log(`cursor created #${id}`);
     }
 
+
+    /**
+     * Method: update()
+     * @param config
+     */
     update(config){
         this.config = {...this.config, ...config};
         this.style.default = {...this.style.default, ...this.config.style};
         this.setCursorDefault();
-    }
-
-    setMousePosition(x, y){
-        this.mouse.x = x;
-        this.mouse.y = y;
-
-        if(typeof this.config.onChange === 'function'){
-            this.config.onChange({mouse: this.mouse});
-        }
-    }
-
-    positionUpdate(){
-        const pos = {x: window.innerWidth / 2, y: window.innerHeight / 2};
-        this.setMousePosition(pos.x, pos.y);
-
-        const xSet = gsap.quickSetter(this.cursor, "x", "px");
-        const ySet = gsap.quickSetter(this.cursor, "y", "px");
-
-        gsap.ticker.add(() => {
-            if(this.isMagnetic){
-                const magPos = getMagneticPosition(this, this.hoverTarget);
-
-                pos.x = magPos.x;
-                pos.y = magPos.y;
-            }else{
-                const dt = 1.0 - Math.pow(1.0 - this.config.speed, gsap.ticker.deltaRatio());
-
-                pos.x += (this.mouse.x - pos.x) * dt;
-                pos.y += (this.mouse.y - pos.y) * dt;
-            }
-
-            // set position
-            xSet(pos.x);
-            ySet(pos.y);
-        });
-    }
-
-    eventListener(){
-        document.addEventListener("mouseleave", e => {
-            this.cursorOut(e);
-        });
-        document.addEventListener("mouseenter", e => {
-            this.cursorIn(e);
-        });
-        window.addEventListener("mousemove", e => {
-            this.cursorMoving(e);
-        });
-
-        // hover events
-        for(const hover of this.config.hover){
-            document.querySelectorAll(hover.selector).forEach(el => {
-                el.style.cursor = 'none';
-
-                // mouse enter
-                el.addEventListener("mouseenter", e => {
-                    if(this.config.dev) console.log(`hover in [${hover.selector}]`);
-
-                    this.status.lastHover = this.status.hover[this.status.hover.length - 1] || hover.selector;
-                    this.status.hover.push(hover.selector);
-                    this.setCursorHover(e);
-                });
-
-                // mouse out
-                el.addEventListener("mouseleave", e => {
-                    if(this.config.dev) console.log(`hover out [${hover.selector}]`);
-
-                    this.status.hover = this.status.hover.filter(item => item !== hover.selector);
-                    this.setCursorHover(e);
-                });
-            });
-        }
     }
 
 
@@ -172,7 +113,7 @@ export class Cursor{
     }
 
     cursorMoving(e){
-        this.setMousePosition(e.x, e.y);
+        setMousePosition(this, e.x, e.y);
 
         // force in when movement detected
         if(!isEnterStyleDrawn(this) && !this.status.hover.length){
