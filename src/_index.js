@@ -1,6 +1,6 @@
 import {uniqueId} from "./utils";
 import {getHover, isEnterStyleDrawn} from "./helpers";
-import {eventListener, setMousePosition, watchMousePosition} from "./mouse-position";
+import {assignEventListeners, setMousePosition, watchMousePosition} from "./mouse-position";
 
 export class Cursor{
     constructor(options){
@@ -54,7 +54,7 @@ export class Cursor{
 
         this.createCursor();
         watchMousePosition(this);
-        eventListener(this);
+        assignEventListeners(this);
 
         return {
             setMousePosition: (x, y) => setMousePosition(this, x, y),
@@ -72,13 +72,14 @@ export class Cursor{
         const el = document.createElement('div');
         el.setAttribute("id", id);
         el.setAttribute("class", `custom-cursor ${this.config.className}`);
+        el.setAttribute("style", `width:0; height:0; opacity:0;`);
 
         // assign cursor
         document.body.appendChild(el);
         this.cursor = document.querySelector(`#${id}`);
 
         // styling
-        this.setCursorOut();
+        this.styleCursorDefault();
 
         if(this.config.dev) console.log(`cursor created #${id}`);
     }
@@ -91,25 +92,25 @@ export class Cursor{
     update(config){
         this.config = {...this.config, ...config};
         this.style.default = {...this.style.default, ...this.config.style};
-        this.setCursorDefault();
+        this.styleCursorDefault();
     }
 
 
     /**
      * Cursor actions
      */
-    cursorIn(e){
+    cursorEnterViewport(e){
         if(this.config.dev) console.log('doc in');
         this.status.in = true;
-        this.setCursorDefault();
-        this.setCursorIn();
+        this.styleCursorDefault();
+        this.styleCursorIn();
     }
 
-    cursorOut(e){
+    cursorLeaveViewport(e){
         if(this.config.dev) console.log('doc out');
         this.status.in = false;
-        this.setCursorDefault();
-        this.setCursorOut();
+        this.styleCursorDefault();
+        this.styleCursorOut();
     }
 
     cursorMoving(e){
@@ -117,7 +118,7 @@ export class Cursor{
 
         // force in when movement detected
         if(!isEnterStyleDrawn(this) && !this.status.hover.length){
-            this.cursorIn(e);
+            this.cursorEnterViewport(e);
         }
         if(this.status.hover.length && this.hoverTarget){
             this.setCursorHover(this.hoverTarget);
@@ -133,6 +134,7 @@ export class Cursor{
     setCursorHover(e){
         const hoverSelector = this.status.hover[this.status.hover.length - 1];
         if(typeof hoverSelector !== 'undefined'){
+            // hover in
             const hover = getHover(hoverSelector);
             this.hoverTarget = e.target || this.hoverTarget;
 
@@ -141,47 +143,41 @@ export class Cursor{
                 hover.in(this);
             }
 
-            // object
-            if(typeof hover.in === 'object'){
-                this.setCursorStyle(hover.in);
-            }
-
             // magnetic
-            this.isMagnetic = typeof hover.magnetic === 'boolean' && hover.magnetic;
+            this.isMagnetic = hover.magnetic === true;
         }else{
             if(typeof this.status.lastHover !== 'undefined'){
+                // hover out
                 const hover = getHover(this.status.lastHover, this.config.hover);
 
                 // callback function
                 if(typeof hover.out === 'function'){
                     hover.out(this);
                 }
-
-                // object
-                if(typeof hover.out === 'object'){
-                    this.setCursorStyle(hover.out);
-                }
             }
-            this.cursorIn(e);
+            this.cursorEnterViewport(e);
             this.isMagnetic = false;
         }
     }
 
     setCursorStyle(style){
-        gsap.to(this.cursor, {...{duration: .2}, ...style});
+        gsap.to(this.cursor, {
+            duration: .2,
+            ...style
+        });
     }
 
-    setCursorIn(){
+    styleCursorIn(){
         if(this.config.dev) console.log('gsap in');
         this.setCursorStyle(this.style.in);
     }
 
-    setCursorOut(){
+    styleCursorOut(){
         if(this.config.dev) console.log('gsap out');
         this.setCursorStyle(this.style.out);
     }
 
-    setCursorDefault(){
+    styleCursorDefault(){
         if(this.config.dev) console.log('gsap default');
         this.setCursorStyle(this.style.default);
     }

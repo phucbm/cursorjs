@@ -31,7 +31,7 @@ new Cursor({
         height: '40px',
         backgroundColor: 'rgba(0,0,0,1)',
         boxShadow: '0 0 0 2px rgba(0,0,0,.3)',
-        opacity: .3,
+        opacity: .2,
     },
     hover: [
         // grid

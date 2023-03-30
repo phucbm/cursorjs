@@ -38,12 +38,12 @@ export function setMousePosition(context, x, y){
 }
 
 
-export function eventListener(context){
+export function assignEventListeners(context){
     document.addEventListener("mouseleave", e => {
-        context.cursorOut(e);
+        context.cursorLeaveViewport(e);
     });
     document.addEventListener("mouseenter", e => {
-        context.cursorIn(e);
+        context.cursorEnterViewport(e);
     });
     window.addEventListener("mousemove", e => {
         context.cursorMoving(e);
