@@ -4,8 +4,8 @@
 .eslintrc.json
 .prettierrc.json
 jsconfig.json
-/src
-/examples
 /config
 /public
-postcss.config.js
+/src
+/web
+/dev

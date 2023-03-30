@@ -1,131 +1,73 @@
-# 🦄 Cursor.js
+# GSAP mouse cursor
 
-> ### Customize mouse cursor completely with JS, powered by GSAP.
+A boilerplate to develop JavaScript library with:
 
-[![npm-version](https://badgen.net/npm/v/gsap-cursor?cache=600)](https://www.npmjs.com/package/gsap-cursor)
-[![total-download](https://badgen.net/npm/dt/gsap-cursor?cache=600)](https://www.npmjs.com/package/gsap-cursor)
-[![Made in Vietnam](https://raw.githubusercontent.com/webuild-community/badge/master/svg/made.svg)](https://webuild.community)
-[![jsdelivr](https://data.jsdelivr.com/v1/package/gh/phucbm/Cursor.js/badge?style=rounded)](https://www.jsdelivr.com/package/gh/phucbm/Cursor.js)
-[![license](https://badgen.net/github/license/phucbm/Cursor.js/)](https://github.com/phucbm/Cursor.js/blob/main/LICENSE)
-[![Netlify Status](https://api.netlify.com/api/v1/badges/9d9b7120-8c9d-486d-b53e-7fa938ce5c78/deploy-status)](https://app.netlify.com/sites/cursorjs/deploys)
+- UMD version
+- NPM package
+- Multiple dev servers
 
-Key features:
+> CSS file will not be included in production build.
 
-- Customize native cursor with JS.
-- Update cursor style when hover on specific elements.
+## Examples
 
-Demo 👉 https://cursorjs.netlify.app
+- Production
+  site: https://gsap-cursor.netlify.app [![Netlify Status](https://api.netlify.com/api/v1/badges/3dcd8303-517a-4297-b027-98b9adcc7c5c/deploy-status)](https://app.netlify.com/sites/gsap-cursor/deploys)
+- Dev
+  site: https://gsap-cursor-dev.netlify.app [![Netlify Status](https://api.netlify.com/api/v1/badges/9d0e745c-a957-4c34-923f-d74852270174/deploy-status)](https://app.netlify.com/sites/gsap-cursor-dev/deploys)
+- Distribution files: [/dist](https://github.com/phucbm/webpack-library-boilerplate/tree/main/dist)
 
-![Screen Recording 2022-01-23 at 20 44 49](https://user-images.githubusercontent.com/14942380/150682675-cda01eca-f8d9-4faf-9cd3-611a9ca550e2.gif)
+## Todos
 
-## Installation
-
-### From NPM
-
-```shell
-npm i gsap-cursor
-```
-
-```js
-import {Cursor} from "gsap-cursor";
-
-new Cursor();
-```
-
-### From CDN
-
-```html
-<!-- UNPKG (GSAP included) -->
-<script src="https://unpkg.com/gsap-cursor/dist/gsap-cursor.min.js"></script>
-```
-
-```js
-new Cursor();
-```
-
-## Configuration
-
-```js
-const config = {
-    speed: .2, // the smaller the slower
-    className: '', // custom class for the cursor
-    style: {
-        width: '15px',
-        height: '15px',
-        borderRadius: '50%',
-        backgroundColor: `rgba(0, 0, 0, .5)`
-    }
-};
-const cursor = new Cursor(config);
-```
-
-Custom style on hover
-
-```js
-const config = {
-    speed: .2, // the smaller the slower
-    className: '', // custom class for the cursor
-    style: {
-        width: '15px',
-        height: '15px',
-        borderRadius: '50%',
-        backgroundColor: `rgba(0, 0, 0, .5)`
-    },
-    hover: [
-        // text
-        {
-            selector: 'p',
-            in: {
-                borderRadius: 0,
-                width: '2px',
-                height: '30px',
-                backgroundColor: 'rgba(0,0,0,.3)'
-            }
-        },
-        // clickable elements
-        {
-            selector: 'a, button',
-            magnetic: true,
-            in: data => {
-                gsap.to(data.cursor, {
-                    width: data.hoverTarget.offsetWidth + 6,
-                    height: data.hoverTarget.offsetHeight + 4,
-                    borderRadius: '4px',
-                    backgroundColor: 'rgba(0,0,0,.05)'
-                });
-            }
-        }
-    ]
-};
-const cursor = new Cursor(config);
-```
+1. Update `package.json`
+    - `name`: output file name
+    - `prettyName`: output library name
+    - ...
+2. Library script start with `src/_index.js`, **do not rename this file**.
+3. Edit dev site in folder `dev`
+4. Edit production site in folder `web`
 
 ## Deployment
 
-### Development
+### Dev server
+
+Run production server
 
 ```shell
-npm install
+npm run web
 ```
+
+Run dev server
 
 ```shell
 npm run dev
 ```
 
-### Production
+You can add more dev site by duplicate dev or web folder and update the npm scripts.
+
+### Generate production files
+
+Generate UMD and module version
 
 ```shell
-npm run build
+npm run prod
 ```
 
-### Publish to NPM
+Generate UMD and module version then publish NPM package
 
 ```shell
 npm run publish
 ```
 
-## License
+### Build sites
 
-[MIT License](https://github.com/phucbm/Cursor.js/blob/main/LICENSE)
+Build production site
 
-Copyright (c) 2022 Minh-Phuc Bui
+```shell
+npm run build
+```
+
+Build dev site
+
+```shell
+npm run build-dev
+```
