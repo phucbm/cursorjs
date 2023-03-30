@@ -99,26 +99,26 @@ export class Cursor{
     /**
      * Cursor actions
      */
-    cursorEnterViewport(e){
+    onCursorEnterViewport(e){
         if(this.config.dev) console.log('doc in');
         this.status.in = true;
         this.styleCursorDefault();
         this.styleCursorIn();
     }
 
-    cursorLeaveViewport(e){
+    onCursorLeaveViewport(e){
         if(this.config.dev) console.log('doc out');
         this.status.in = false;
         this.styleCursorDefault();
         this.styleCursorOut();
     }
 
-    cursorMoving(e){
+    onCursorMoving(e){
         setMousePosition(this, e.x, e.y);
 
         // force in when movement detected
         if(!isEnterStyleDrawn(this) && !this.status.hover.length){
-            this.cursorEnterViewport(e);
+            this.onCursorEnterViewport(e);
         }
         if(this.status.hover.length && this.hoverTarget){
             this.setCursorHover(this.hoverTarget);
@@ -155,7 +155,7 @@ export class Cursor{
                     hover.out(this);
                 }
             }
-            this.cursorEnterViewport(e);
+            this.onCursorEnterViewport(e);
             this.isMagnetic = false;
         }
     }
