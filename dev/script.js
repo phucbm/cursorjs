@@ -25,26 +25,15 @@ document.querySelector('[data-description]').innerHTML = packageInfo.description
  * Lib usage
  */
 new Cursor({
-    speed: .2,
-    style: {
-        width: '40px',
-        height: '40px',
-        backgroundColor: 'rgba(0,0,0,1)',
-        boxShadow: '0 0 0 2px rgba(0,0,0,.3)',
-        opacity: .2,
+  speed: .2,
+  hover: [
+    {
+      selectors: '.cursor-grid-demo article',
+      className: 'style-grid'
     },
-    hover: [
-        // grid
-        {
-            selector: '.cursor-grid-demo article',
-            //magnetic: true,
-            in: data => {
-                gsap.to(data.cursor, {
-                    scale: 1.05,
-                    opacity: .6,
-                });
-            }
-        },
-
-    ]
+    {
+      selectors: '.cursor-image',
+      className: 'style-image'
+    },
+  ]
 });

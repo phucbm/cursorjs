@@ -19,3 +19,33 @@ section {
   aspect-ratio: 1280/560;
   width: 100%;
 }
+
+
+/* Cursor */
+.css-cursor {
+  transform: translate(-50%, -50%);
+}
+
+.css-cursor:not(.in-viewport) {
+  opacity: 0;
+}
+
+.css-cursor-inner {
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, .3);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  transition: all .3s ease;
+}
+
+
+.css-cursor.style-grid .css-cursor-inner {
+  width: 60px;
+  height: 60px;
+}
+
+.css-cursor.style-image .css-cursor-inner {
+  width: 100px;
+  height: 100px;
+  background: rgba(255, 255, 255, .4);
+}

@@ -1,184 +1,93 @@
-import {uniqueId} from "./utils";
-import {getHover, isEnterStyleDrawn} from "./helpers";
-import {assignEventListeners, setMousePosition, watchMousePosition} from "./mouse-position";
+import {uniqueId} from './utils'
+import {getHover, isEnterStyleDrawn} from './helpers'
+import {assignEventListeners, setMousePosition, watchMousePosition} from './mouse-position'
 
-export class Cursor{
-    constructor(options){
-        // config
-        this.config = {
-            ...{
-                dev: false,
-                speed: 1,
-                className: '',
-                style: {},
-                hover: [],
-                attraction: .2, // 1 is weak, 0 is strong
-                distance: 100, // magnetic area around element count from center [px]
-                onChange: data => {
-                }
-            }, ...options
-        };
-
-        // data
-        this.mouse = {x: 0, y: 0};
-        this.status = {
-            in: false,
-            hover: [],
-            lastHover: ''
-        };
-        this.style = {
-            default: {
-                ...{
-                    // fixed settings
-                    duration: .3,
-                    xPercent: -50,
-                    yPercent: -50,
-                    pointerEvents: 'none',
-                    zIndex: '9999',
-                    position: 'fixed',
-                    top: 0,
-                    left: 0,
-                    // style
-                    width: '15px',
-                    height: '15px',
-                    borderRadius: '50%',
-                    backgroundColor: `rgba(0, 0, 0, .5)`
-                }, ...this.config.style
-            }, out: {
-                opacity: 0, duration: .3
-            }, in: {
-                opacity: 1, duration: .3
-            },
-        };
-
-
-        this.createCursor();
-        watchMousePosition(this);
-        assignEventListeners(this);
-
-        return {
-            setMousePosition: (x, y) => setMousePosition(this, x, y),
-            update: config => this.update(config)
-        };
+export class Cursor {
+  constructor(options) {
+    // config
+    this.config = {
+      ...{
+        dev: true,
+        speed: 1,
+        className: '',
+        hover: [],
+        attraction: .2, // 1 is weak, 0 is strong
+        distance: 100, // magnetic area around element count from center [px]
+        onChange: data => {
+        },
+      }, ...options,
     }
 
+    // data
+    this.mouse = {x: 0, y: 0}
 
-    /**
-     * Create cursor dev and append to body
-     */
-    createCursor(){
-        // create new cursor with id
-        const id = uniqueId('cursor-');
-        const el = document.createElement('div');
-        el.setAttribute("id", id);
-        el.setAttribute("class", `custom-cursor ${this.config.className}`);
-        el.setAttribute("style", `width:0; height:0; opacity:0;`);
+    this.createCursor()
+    watchMousePosition(this)
+    assignEventListeners(this)
 
-        // assign cursor
-        document.body.appendChild(el);
-        this.cursor = document.querySelector(`#${id}`);
-
-        // styling
-        this.styleCursorDefault();
-
-        if(this.config.dev) console.log(`cursor created #${id}`);
+    return {
+      setMousePosition: (x, y) => setMousePosition(this, x, y),
+      update: config => this.update(config),
     }
+  }
 
 
-    /**
-     * Method: update()
-     * @param config
-     */
-    update(config){
-        this.config = {...this.config, ...config};
-        this.style.default = {...this.style.default, ...this.config.style};
-        this.styleCursorDefault();
-    }
+  /**
+   * Create cursor dev and append to body
+   */
+  createCursor() {
+    // create new cursor with id
+    const id = uniqueId('cursor-');
+    const html = `<div id="${id}" class="css-cursor ${this.config.className}">
+                    <div class="css-cursor-inner"></div>
+                  </div>`;
+
+    // insert HTML
+    document.body.insertAdjacentHTML('beforeend', html);
+
+    // assign cursor
+    this.cursor = document.querySelector(`#${id}`);
+
+    // default CSS
+    Object.assign(this.cursor.style, {
+      pointerEvents: 'none',
+      zIndex: '9999',
+      position: 'fixed',
+      top: 0,
+      left: 0,
+    });
+
+    if (this.config.dev) console.log(`cursor created #${id}`)
+  }
 
 
-    /**
-     * Cursor actions
-     */
-    onCursorEnterViewport(e){
-        if(this.config.dev) console.log('doc in');
-        this.status.in = true;
-        this.styleCursorDefault();
-        this.styleCursorIn();
-    }
-
-    onCursorLeaveViewport(e){
-        if(this.config.dev) console.log('doc out');
-        this.status.in = false;
-        this.styleCursorDefault();
-        this.styleCursorOut();
-    }
-
-    onCursorMoving(e){
-        setMousePosition(this, e.x, e.y);
-
-        // force in when movement detected
-        if(!isEnterStyleDrawn(this) && !this.status.hover.length){
-            this.onCursorEnterViewport(e);
-        }
-        if(this.status.hover.length && this.hoverTarget){
-            this.setCursorHover(this.hoverTarget);
-        }
-    }
+  /**
+   * Method: update()
+   * @param config
+   */
+  update(config) {
+    this.config = {...this.config, ...config}
+  }
 
 
-    /**
-     * Set cursor style
-     * @param e
-     */
+  /**
+   * Cursor actions
+   */
+  onCursorEnterViewport(e) {
+    if (this.config.dev) console.log('doc in')
 
-    setCursorHover(e){
-        const hoverSelector = this.status.hover[this.status.hover.length - 1];
-        if(typeof hoverSelector !== 'undefined'){
-            // hover in
-            const hover = getHover(hoverSelector);
-            this.hoverTarget = e.target || this.hoverTarget;
+    // update class
+    this.cursor.classList.add('in-viewport');
+  }
 
-            // callback function
-            if(typeof hover.in === 'function'){
-                hover.in(this);
-            }
+  onCursorLeaveViewport(e) {
+    if (this.config.dev) console.log('doc out')
 
-            // magnetic
-            this.isMagnetic = hover.magnetic === true;
-        }else{
-            if(typeof this.status.lastHover !== 'undefined'){
-                // hover out
-                const hover = getHover(this.status.lastHover, this.config.hover);
+    // update class
+    this.cursor.classList.remove('in-viewport');
+  }
 
-                // callback function
-                if(typeof hover.out === 'function'){
-                    hover.out(this);
-                }
-            }
-            this.onCursorEnterViewport(e);
-            this.isMagnetic = false;
-        }
-    }
-
-    setCursorStyle(style){
-        gsap.to(this.cursor, {
-            duration: .2,
-            ...style
-        });
-    }
-
-    styleCursorIn(){
-        if(this.config.dev) console.log('gsap in');
-        this.setCursorStyle(this.style.in);
-    }
-
-    styleCursorOut(){
-        if(this.config.dev) console.log('gsap out');
-        this.setCursorStyle(this.style.out);
-    }
-
-    styleCursorDefault(){
-        if(this.config.dev) console.log('gsap default');
-        this.setCursorStyle(this.style.default);
-    }
+  onCursorMoving(e) {
+    setMousePosition(this, e.x, e.y);
+  }
 }
