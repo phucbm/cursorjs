@@ -144,7 +144,7 @@ window.CSSCursorController = new Controller();
  */
 window.CSSCursor = {
     // init new instances
-    init: (options = {}) => window.CSSCursorController.add(new Cursor(options)),
+    create: (options = {}) => window.CSSCursorController.add(new Cursor(options)),
 
     // Get instance object by ID
     get: id => window.CSSCursorController.get(id)
