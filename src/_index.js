@@ -109,14 +109,14 @@ class Controller{
 
 /**
  * Public library data
- * access via window.WelliiController
+ * access via window.CSSCursorController
  */
 window.CSSCursorController = new Controller();
 
 
 /**
  * Public library object
- * access via window.Wellii
+ * access via window.CSSCursor
  */
 window.CSSCursor = {
     // init new instances
