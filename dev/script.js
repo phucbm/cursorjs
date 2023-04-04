@@ -24,16 +24,17 @@ document.querySelector('[data-description]').innerHTML = packageInfo.description
 /**
  * Lib usage
  */
-new Cursor({
-  speed: .2,
-  hover: [
-    {
-      selectors: '.cursor-grid-demo article',
-      className: 'style-grid'
-    },
-    {
-      selectors: '.cursor-image',
-      className: 'style-image'
-    },
-  ]
+CSSCursor.init({
+    id: 'my-cursor',
+    speed: .2,
+    hover: [
+        {
+            selectors: '.cursor-grid-demo article',
+            className: 'style-grid'
+        },
+        {
+            selectors: '.cursor-image',
+            className: 'style-image'
+        },
+    ]
 });

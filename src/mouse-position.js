@@ -1,5 +1,4 @@
 import {getMagneticPosition} from "./helpers";
-import {debounce} from "@/utils";
 
 export function watchMousePosition(context) {
   const pos = {x: window.innerWidth / 2, y: window.innerHeight / 2};
