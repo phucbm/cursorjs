@@ -1,12 +1,13 @@
 import {uniqueId} from './utils'
-import {assignEventListeners, assignHoverEvents, setMousePosition, watchMousePosition} from './mouse-position'
+import {assignEventListeners, assignHoverEvents, watchMousePosition} from './mouse-position'
+import {createCursor} from "./helpers";
 
 class Cursor{
     constructor(options){
         // config
         this.config = {
             id: uniqueId('css-cursor-'),
-            dev: true,
+            dev: false,
             speed: 1,
             className: '',
             hover: [],
@@ -32,38 +33,11 @@ class Cursor{
         // data
         this.id = this.config.id;
         this.mouse = {x: 0, y: 0};
+        this.cursor = undefined;
 
-        this.createCursor();
+        createCursor(this);
         watchMousePosition(this);
         assignEventListeners(this);
-    }
-
-
-    /**
-     * Create cursor dev and append to body
-     */
-    createCursor(){
-        // create new cursor with id
-        const html = `<div id="${this.id}" class="css-cursor ${this.config.className}">
-                    <div class="css-cursor-inner"></div>
-                  </div>`;
-
-        // insert HTML
-        this.config.container.insertAdjacentHTML('beforeend', html);
-
-        // assign cursor
-        this.cursor = document.querySelector(`#${this.id}`);
-
-        // default CSS
-        Object.assign(this.cursor.style, {
-            pointerEvents: 'none',
-            zIndex: '9999',
-            position: 'fixed',
-            top: 0,
-            left: 0,
-        });
-
-        if(this.config.dev) console.log(`cursor created #${this.id}`)
     }
 
 
@@ -88,28 +62,6 @@ class Cursor{
     refresh(){
         // assign new hover selectors
         assignHoverEvents(this);
-    }
-
-
-    /**
-     * Cursor actions
-     */
-    onCursorEnterViewport(e){
-        if(this.config.dev) console.log('doc in')
-
-        // update class
-        this.cursor.classList.add('in-viewport');
-    }
-
-    onCursorLeaveViewport(e){
-        if(this.config.dev) console.log('doc out')
-
-        // update class
-        this.cursor.classList.remove('in-viewport');
-    }
-
-    onCursorMoving(e){
-        setMousePosition(this, e.x, e.y);
     }
 }
 

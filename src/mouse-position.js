@@ -47,17 +47,23 @@ export function assignEventListeners(context){
 function assignMouseEvents(context){
     // leave viewport
     document.addEventListener("mouseleave", e => {
-        context.onCursorLeaveViewport(e);
+        if(context.config.dev) console.log('doc out')
+
+        // update class
+        context.cursor.classList.remove('in-viewport');
     });
 
     // enter viewport
     document.addEventListener("mouseenter", e => {
-        context.onCursorEnterViewport(e);
+        if(context.config.dev) console.log('doc in')
+
+        // update class
+        context.cursor.classList.add('in-viewport');
     });
 
     // moving
     window.addEventListener("mousemove", e => {
-        context.onCursorMoving(e);
+        setMousePosition(context, e.x, e.y);
     });
 }
 

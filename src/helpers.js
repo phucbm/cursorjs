@@ -28,3 +28,31 @@ export function getHover(selector, hoverItems){
 export function isEnterStyleDrawn(context){
     return context.cursor.style.width === context.style.default.width && context.cursor.style.height === context.style.default.height;
 }
+
+
+/**
+ * Create cursor dev and append to body
+ */
+export function createCursor(context){
+    // create new cursor with id
+    const html = `<div id="${context.id}" class="css-cursor ${context.config.className}">
+                    <div class="css-cursor-inner"></div>
+                  </div>`;
+
+    // insert HTML
+    context.config.container.insertAdjacentHTML('beforeend', html);
+
+    // assign cursor
+    context.cursor = document.querySelector(`#${context.id}`);
+
+    // default CSS
+    Object.assign(context.cursor.style, {
+        pointerEvents: 'none',
+        zIndex: '9999',
+        position: 'fixed',
+        top: 0,
+        left: 0,
+    });
+
+    if(context.config.dev) console.log(`cursor created #${context.id}`)
+}
