@@ -1,5 +1,5 @@
 import {uniqueId} from './utils'
-import {assignEventListeners, setMousePosition, watchMousePosition} from './mouse-position'
+import {assignEventListeners, assignHoverEvents, setMousePosition, watchMousePosition} from './mouse-position'
 
 class Cursor{
     constructor(options){
@@ -17,6 +17,11 @@ class Cursor{
                 },
             }, ...options,
         }
+
+        // classes
+        this._class = {
+            hoverEnabled: 'css-cursor-hover-enabled'
+        };
 
         // data
         this.id = this.config.id;
@@ -72,6 +77,11 @@ class Cursor{
         window.CSSCursorController.remove(this.id);
 
         if(this.config.dev) console.log(`cursor #${this.id} removed`)
+    }
+
+    refresh(){
+        // assign new hover selectors
+        assignHoverEvents(this);
     }
 
 
