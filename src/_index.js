@@ -20,6 +20,7 @@ class Cursor{
 
         // classes
         this._class = {
+            isHover: 'is-hover',
             hoverEnabled: 'css-cursor-hover-enabled'
         };
 

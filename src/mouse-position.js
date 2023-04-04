@@ -75,12 +75,14 @@ export function assignHoverEvents(context){
             el.addEventListener("mouseenter", e => {
                 // update class
                 context.cursor.classList.add(hover.className);
+                context.cursor.classList.add(context._class.isHover);
             });
 
             // mouse out
             el.addEventListener("mouseleave", e => {
                 // update class
                 context.cursor.classList.remove(hover.className);
+                context.cursor.classList.remove(context._class.isHover);
             });
         });
     }
