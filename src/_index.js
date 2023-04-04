@@ -64,6 +64,16 @@ class Cursor{
         this.config = {...this.config, ...config}
     }
 
+    destroy(){
+        // remove from DOM
+        this.cursor.remove();
+
+        // remove instance
+        window.CSSCursorController.remove(this.id);
+
+        if(this.config.dev) console.log(`cursor #${this.id} removed`)
+    }
+
 
     /**
      * Cursor actions
@@ -95,6 +105,10 @@ class Cursor{
 class Controller{
     constructor(){
         this.instances = [];
+    }
+
+    remove(id){
+        this.instances = this.instances.filter(x => x.id !== id);
     }
 
     add(instance){
