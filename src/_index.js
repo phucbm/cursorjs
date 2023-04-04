@@ -5,17 +5,22 @@ class Cursor{
     constructor(options){
         // config
         this.config = {
-            ...{
-                id: uniqueId('css-cursor-'),
-                dev: true,
-                speed: 1,
-                className: '',
-                hover: [],
-                attraction: .2, // 1 is weak, 0 is strong
-                distance: 100, // magnetic area around element count from center [px]
-                onChange: data => {
-                },
-            }, ...options,
+            id: uniqueId('css-cursor-'),
+            dev: true,
+            speed: 1,
+            className: '',
+            hover: [],
+            attraction: .2, // 1 is weak, 0 is strong
+            distance: 100, // magnetic area around element count from center [px]
+            container: document.body, // where to append cursor HTML
+            onChange: data => {
+            },
+            ...options,
+        }
+
+        if(!this.config.container){
+            console.warn('Container is not defined!', this.config.container);
+            return;
         }
 
         // classes
@@ -44,7 +49,7 @@ class Cursor{
                   </div>`;
 
         // insert HTML
-        document.body.insertAdjacentHTML('beforeend', html);
+        this.config.container.insertAdjacentHTML('beforeend', html);
 
         // assign cursor
         this.cursor = document.querySelector(`#${this.id}`);
