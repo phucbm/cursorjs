@@ -46,7 +46,7 @@ export function assignEventListeners(context){
 
 function assignMouseEvents(context){
     // leave viewport
-    document.addEventListener("mouseleave", e => {
+    document.addEventListener("mouseout", e => {
         if(context.config.dev) console.log('doc out')
 
         // update class
@@ -54,7 +54,7 @@ function assignMouseEvents(context){
     });
 
     // enter viewport
-    document.addEventListener("mouseenter", e => {
+    document.addEventListener("mouseover", e => {
         if(context.config.dev) console.log('doc in')
 
         // update class
