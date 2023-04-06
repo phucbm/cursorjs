@@ -29,13 +29,16 @@ class Cursor{
                 width: '40px',
                 height: '40px',
                 borderRadius: '50%',
-                transition: 'all .3s ease'
+                transition: 'all .3s ease',
+                position: 'absolute',
+                transform: 'translate(-50%,-50%)'
             },
 
             // add class to cursor when hovering on specific items
             hover: [],
             // selectors: '.item', // items to detect cursor hover
             // className: 'is-item-hover' // class added on hover
+            // cursor: 'none' // native cursor style on hover
 
             // magnetic options
             attraction: .2, // 1 is weak, 0 is strong
@@ -66,6 +69,7 @@ class Cursor{
         this.id = this.config.id;
         this.mouse = {x: 0, y: 0};
         this.cursorWrapper = undefined;
+        this.cursorInner = undefined;
 
         createCursor(this);
         watchMousePosition(this);

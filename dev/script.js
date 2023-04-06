@@ -7,7 +7,6 @@ import './style.scss';
 
 // source script
 import '@/_index';
-import {Cursor} from "@/_index";
 
 // import package info
 const packageInfo = require('../package.json');

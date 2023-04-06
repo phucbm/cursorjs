@@ -79,8 +79,8 @@ export function assignHoverEvents(context){
             // flag
             el.classList.add(context._class.hoverEnabled);
 
-            // disable cursor
-            el.style.cursorWrapper = 'none';
+            // update cursor
+            el.style.cursor = hover.cursor ? hover.cursor : 'none';
 
             // mouse enter
             el.addEventListener("mouseenter", e => {
