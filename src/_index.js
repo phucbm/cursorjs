@@ -8,7 +8,7 @@ class Cursor{
         this.config = {
             id: uniqueId('css-cursor-'),
             dev: false,
-            speed: 1,
+            speed: .2, // the smaller, the slower
             className: '',
             hover: [],
             attraction: .2, // 1 is weak, 0 is strong

@@ -1,12 +1,9 @@
 import {getMagneticPosition} from "./helpers";
 
 export function watchMousePosition(context){
-    const pos = {x: window.innerWidth / 2, y: window.innerHeight / 2};
+    const pos = {x: window.innerWidth, y: window.innerHeight};
     setMousePosition(context, pos.x, pos.y);
 
-    const newSet = (x, y) => {
-        context.cursor.style.transform = `translate(${x}px,${y}px)`;
-    }
 
     const loop = () => {
         //if(context.isMagnetic){
@@ -16,13 +13,13 @@ export function watchMousePosition(context){
         //         pos.y = magPos.y;
         //     }
 
-        const dt = 0.2;
+        pos.x += (context.mouse.x - pos.x) * context.config.speed;
+        pos.y += (context.mouse.y - pos.y) * context.config.speed;
 
-        pos.x += (context.mouse.x - pos.x) * dt;
-        pos.y += (context.mouse.y - pos.y) * dt;
+        // set CSS
+        context.cursor.style.transform = `translate(${pos.x}px,${pos.y}px)`;
 
-        newSet(pos.x, pos.y);
-
+        // rAF
         requestAnimationFrame(loop);
     }
     loop();

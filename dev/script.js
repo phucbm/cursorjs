@@ -26,7 +26,6 @@ document.querySelector('[data-description]').innerHTML = packageInfo.description
  */
 CSSCursor.create({
     id: 'my-cursor',
-    speed: .2,
     hover: [
         {
             selectors: '.cursor-grid-demo article',
