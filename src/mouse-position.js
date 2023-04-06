@@ -4,26 +4,28 @@ export function watchMousePosition(context){
     const pos = {x: window.innerWidth / 2, y: window.innerHeight / 2};
     setMousePosition(context, pos.x, pos.y);
 
-    const xSet = gsap.quickSetter(context.cursor, "x", "px");
-    const ySet = gsap.quickSetter(context.cursor, "y", "px");
+    const newSet = (x, y) => {
+        context.cursor.style.transform = `translate(${x}px,${y}px)`;
+    }
 
-    gsap.ticker.add(() => {
-        if(context.isMagnetic){
-            const magPos = getMagneticPosition(context, context.hoverTarget);
+    const loop = () => {
+        //if(context.isMagnetic){
+        //         const magPos = getMagneticPosition(context, context.hoverTarget);
+        //
+        //         pos.x = magPos.x;
+        //         pos.y = magPos.y;
+        //     }
 
-            pos.x = magPos.x;
-            pos.y = magPos.y;
-        }else{
-            const dt = 1.0 - Math.pow(1.0 - context.config.speed, gsap.ticker.deltaRatio());
+        const dt = 0.2;
 
-            pos.x += (context.mouse.x - pos.x) * dt;
-            pos.y += (context.mouse.y - pos.y) * dt;
-        }
+        pos.x += (context.mouse.x - pos.x) * dt;
+        pos.y += (context.mouse.y - pos.y) * dt;
 
-        // set position
-        xSet(pos.x);
-        ySet(pos.y);
-    });
+        newSet(pos.x, pos.y);
+
+        requestAnimationFrame(loop);
+    }
+    loop();
 }
 
 
