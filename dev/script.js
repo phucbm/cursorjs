@@ -23,7 +23,7 @@ document.querySelector('[data-description]').innerHTML = packageInfo.description
 /**
  * Lib usage
  */
-CSSCursor.create({
+Cursorjs.create({
     id: 'my-cursor',
     hover: [
         {

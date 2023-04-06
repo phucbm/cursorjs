@@ -90,7 +90,7 @@ class Cursor{
         this.cursorWrapper.remove();
 
         // remove instance
-        window.CSSCursorController.remove(this.id);
+        window.CursorjsController.remove(this.id);
 
         if(this.config.dev) console.log(`cursor #${this.id} removed`)
     }
@@ -127,19 +127,19 @@ class Controller{
 
 /**
  * Public library data
- * access via window.CSSCursorController
+ * access via window.CursorjsController
  */
-window.CSSCursorController = new Controller();
+window.CursorjsController = new Controller();
 
 
 /**
  * Public library object
- * access via window.CSSCursor
+ * access via window.Cursorjs
  */
-window.CSSCursor = {
+window.Cursorjs = {
     // init new instances
-    create: (options = {}) => window.CSSCursorController.add(new Cursor(options)),
+    create: (options = {}) => window.CursorjsController.add(new Cursor(options)),
 
     // Get instance object by ID
-    get: id => window.CSSCursorController.get(id)
+    get: id => window.CursorjsController.get(id)
 };

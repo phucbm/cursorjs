@@ -1,14 +1,14 @@
 {
-  "name": "gsap-cursor",
-  "outputFilename": "gsap-cursor",
-  "prettyName": "GSAP mouse cursor",
+  "name": "@phucbm/cursorjs",
+  "outputFilename": "cursorjs",
+  "prettyName": "Cursor.js",
   "codeName": "Cursor",
-  "version": "1.0.0",
-  "description": "",
-  "homepage": "https://github.com/phucbm/gsap-cursor",
+  "version": "2.0.0",
+  "description": "Create custom mouse cursor with pure vanilla JS + CSS",
+  "homepage": "https://github.com/phucbm/cursorjs",
   "repository": {
     "type": "git",
-    "url": "git@github.com:phucbm/Cursor.js"
+    "url": "git@github.com:phucbm/cursorjs"
   },
   "author": {
     "name": "phucbm",
@@ -19,7 +19,7 @@
     "javascript",
     "es6"
   ],
-  "main": "./dist/gsap-cursor.module.js",
+  "main": "./dist/cursorjs.module.js",
   "license": "MIT",
   "scripts": {
     "dev": "webpack serve --config config/webpack.dev.js",
