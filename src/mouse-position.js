@@ -30,9 +30,9 @@ export function setMousePosition(context, x, y){
     context.mouse.x = x;
     context.mouse.y = y;
 
-    // fire event: onChange
-    if(typeof context.config.onChange === 'function'){
-        context.config.onChange({mouse: context.mouse});
+    // fire event: onUpdate
+    if(typeof context.config.onUpdate === 'function'){
+        context.config.onUpdate({mouse: context.mouse});
     }
 }
 

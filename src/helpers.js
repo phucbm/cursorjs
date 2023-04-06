@@ -35,8 +35,8 @@ export function isEnterStyleDrawn(context){
  */
 export function createCursor(context){
     // create new cursor with id
-    const html = `<div id="${context.id}" class="css-cursor ${context.config.className}">
-                    <div class="css-cursor-inner"></div>
+    const html = `<div id="${context.id}" class="${context._class.wrapper} ${context.config.className}">
+                    <div class="${context._class.inner}">${context.config.innerHTML}</div>
                   </div>`;
 
     // insert HTML

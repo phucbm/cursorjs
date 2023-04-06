@@ -6,16 +6,31 @@ class Cursor{
     constructor(options){
         // config
         this.config = {
+            dev: false, // show console log
+
             id: uniqueId('css-cursor-'),
-            dev: false,
-            speed: .2, // the smaller, the slower
+            speed: .2, // cursor easing speed, the smaller, the slower
+
+            container: document.body, // where to append cursor HTML
             className: '',
-            hover: [],
+            innerHMTL: '',
+
+            // add class to cursor when hovering on specific items
+            hover: [
+                {
+                    selectors: '.item', // items to detect cursor hover
+                    className: 'is-item-hover' // class added on hover
+                }
+            ],
+
+            // magnetic options
             attraction: .2, // 1 is weak, 0 is strong
             distance: 100, // magnetic area around element count from center [px]
-            container: document.body, // where to append cursor HTML
-            onChange: data => {
+
+            // on cursor position update
+            onUpdate: data => {
             },
+
             ...options,
         }
 
@@ -26,6 +41,8 @@ class Cursor{
 
         // classes
         this._class = {
+            wrapper: 'css-cursor',
+            inner: 'css-cursor-inner',
             isHover: 'is-hover',
             hoverEnabled: 'css-cursor-hover-enabled'
         };
