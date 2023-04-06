@@ -1,9 +1,11 @@
 export function watchMousePosition(context){
     const pos = {x: window.innerWidth, y: window.innerHeight};
+
+    // default cursor position
     setMousePosition(context, pos.x, pos.y);
 
-
     const loop = () => {
+        // lerp (https://codepen.io/rachsmith/post/animation-tip-lerp)
         pos.x += (context.mouse.x - pos.x) * context.config.speed;
         pos.y += (context.mouse.y - pos.y) * context.config.speed;
 
