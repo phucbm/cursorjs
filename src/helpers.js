@@ -1,5 +1,12 @@
 import {distanceFromMouseToEl, getOffset} from "./utils";
 
+
+/**
+ * Get magnetic position
+ * @param context
+ * @param el
+ * @returns {{x: *, y: *}|*}
+ */
 export function getMagneticPosition(context, el){
     if(typeof el === 'undefined') return context.mouse;
 
@@ -13,20 +20,6 @@ export function getMagneticPosition(context, el){
         return {x: x + centerX, y: y + centerY};
     }
     return context.mouse;
-}
-
-
-export function getHover(selector, hoverItems){
-    for(const hover of hoverItems){
-        if(hover.selector === selector){
-            return hover;
-        }
-    }
-    return false;
-}
-
-export function isEnterStyleDrawn(context){
-    return context.cursorWrapper.style.width === context.style.default.width && context.cursorWrapper.style.height === context.style.default.height;
 }
 
 

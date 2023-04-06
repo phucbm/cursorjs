@@ -1,18 +1,9 @@
-import {getMagneticPosition} from "./helpers";
-
 export function watchMousePosition(context){
     const pos = {x: window.innerWidth, y: window.innerHeight};
     setMousePosition(context, pos.x, pos.y);
 
 
     const loop = () => {
-        //if(context.isMagnetic){
-        //         const magPos = getMagneticPosition(context, context.hoverTarget);
-        //
-        //         pos.x = magPos.x;
-        //         pos.y = magPos.y;
-        //     }
-
         pos.x += (context.mouse.x - pos.x) * context.config.speed;
         pos.y += (context.mouse.y - pos.y) * context.config.speed;
 
