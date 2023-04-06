@@ -1,73 +1,99 @@
-# GSAP mouse cursor
+# 🦄 Cursor.js
 
-A boilerplate to develop JavaScript library with:
+> Create custom mouse cursor with pure vanilla JS + CSS
 
-- UMD version
-- NPM package
-- Multiple dev servers
+[![npm-version](https://badgen.net/npm/v/%40phucbm%2Fcursorjs?cache=600)](https://www.npmjs.com/package/%40phucbm%2Fcursorjs)
+[![total-download](https://badgen.net/npm/dt/%40phucbm%2Fcursorjs?cache=600)](https://www.npmjs.com/package/%40phucbm%2Fcursorjs)
+[![Made in Vietnam](https://raw.githubusercontent.com/webuild-community/badge/master/svg/made.svg)](https://webuild.community)
+[![jsdelivr](https://data.jsdelivr.com/v1/package/gh/phucbm/cursorjs/badge?style=rounded)](https://www.jsdelivr.com/package/gh/phucbm/cursorjs)
+[![license](https://badgen.net/github/license/phucbm/cursorjs/)](https://github.com/phucbm/cursorjs/blob/main/LICENSE)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/9d9b7120-8c9d-486d-b53e-7fa938ce5c78/deploy-status)](https://app.netlify.com/sites/cursorjs/deploys)
 
-> CSS file will not be included in production build.
+Key features:
 
-## Examples
+- Cursor moving with easing (no dependencies)
+- Extremely light-weight (4kb)
+- One cursor - unlimited styles on hover
 
-- Production
-  site: https://gsap-cursor.netlify.app [![Netlify Status](https://api.netlify.com/api/v1/badges/3dcd8303-517a-4297-b027-98b9adcc7c5c/deploy-status)](https://app.netlify.com/sites/gsap-cursor/deploys)
-- Dev
-  site: https://gsap-cursor-dev.netlify.app [![Netlify Status](https://api.netlify.com/api/v1/badges/9d0e745c-a957-4c34-923f-d74852270174/deploy-status)](https://app.netlify.com/sites/gsap-cursor-dev/deploys)
-- Distribution files: [/dist](https://github.com/phucbm/webpack-library-boilerplate/tree/main/dist)
+Demo 👉 https://cursorjs.netlify.app
 
-## Todos
+## Getting started
 
-1. Update `package.json`
-    - `name`: output file name
-    - `prettyName`: output library name
-    - ...
-2. Library script start with `src/_index.js`, **do not rename this file**.
-3. Edit dev site in folder `dev`
-4. Edit production site in folder `web`
+### Installation
+
+#### NPM Package
+
+```shell
+npm i @phucbm/cursorjs
+```
+
+Import
+
+```js
+import "@phucbm/cursorjs";
+```
+
+#### Download
+
+👉 Self hosted - [Download the latest release](https://github.com/phucbm/cursorjs/releases/latest)
+
+```html
+
+<script src="./cursorjs.min.js"></script>
+```
+
+👉 CDN Hosted - [jsDelivr](https://www.jsdelivr.com/package/gh/phucbm/cursorjs)
+
+```html
+<!-- JS (10KB) -->
+<script src="https://cdn.jsdelivr.net/gh/phucbm/cursorjs@latest/dist/cursorjs.min.js"></script>
+```
+
+### Initialize
+
+```js
+// with default style
+Cursorjs.create();
+
+// with more options
+Cursorjs.create({
+    id: 'my-cursor',
+    innerHTML: '<i class="icon-cursor"></i>',
+    hover: [
+        {
+            selectors: '.items',
+            className: 'my-style-class'
+        },
+    ]
+});
+```
+
+## Options
+
+### Selectors
+
+| Name         | Type        | Default               | Description                                |
+|--------------|-------------|-----------------------|--------------------------------------------|
+| el           | DOM element | `[data-eta]`          | Wrapper element                            |
 
 ## Deployment
 
-### Dev server
-
-Run production server
-
 ```shell
-npm run web
-```
-
-Run dev server
-
-```shell
+# Run dev server
 npm run dev
-```
 
-You can add more dev site by duplicate dev or web folder and update the npm scripts.
-
-### Generate production files
-
-Generate UMD and module version
-
-```shell
+# Generate UMD and module version
 npm run prod
-```
 
-Generate UMD and module version then publish NPM package
+# Build production site
+npm run build
 
-```shell
+# Generate UMD and module version then publish NPM package
 npm run publish
 ```
 
-### Build sites
+## License
 
-Build production site
+[MIT License](https://github.com/phucbm/cursorjs/blob/main/LICENSE)
 
-```shell
-npm run build
-```
-
-Build dev site
-
-```shell
-npm run build-dev
-```
+Copyright (c) 2023 @phucbm
