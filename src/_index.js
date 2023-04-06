@@ -13,15 +13,29 @@ class Cursor{
 
             container: document.body, // where to append cursor HTML
             className: '',
-            innerHMTL: '',
+            innerHTML: '',
+            classInViewport: '',
+
+            // default style
+            wrapperCSS: {
+                pointerEvents: 'none',
+                zIndex: '9999',
+                position: 'fixed',
+                top: 0,
+                left: 0,
+            },
+            cursorCSS: {
+                boxShadow: '0 0 0 2px rgba(0, 0, 0, .3)',
+                width: '40px',
+                height: '40px',
+                borderRadius: '50%',
+                transition: 'all .3s ease'
+            },
 
             // add class to cursor when hovering on specific items
-            hover: [
-                {
-                    selectors: '.item', // items to detect cursor hover
-                    className: 'is-item-hover' // class added on hover
-                }
-            ],
+            hover: [],
+            // selectors: '.item', // items to detect cursor hover
+            // className: 'is-item-hover' // class added on hover
 
             // magnetic options
             attraction: .2, // 1 is weak, 0 is strong
@@ -44,13 +58,14 @@ class Cursor{
             wrapper: 'css-cursor',
             inner: 'css-cursor-inner',
             isHover: 'is-hover',
-            hoverEnabled: 'css-cursor-hover-enabled'
+            hoverEnabled: 'css-cursor-hover-enabled',
+            inViewport: this.config.classInViewport || 'in-viewport'
         };
 
         // data
         this.id = this.config.id;
         this.mouse = {x: 0, y: 0};
-        this.cursor = undefined;
+        this.cursorWrapper = undefined;
 
         createCursor(this);
         watchMousePosition(this);
@@ -68,7 +83,7 @@ class Cursor{
 
     destroy(){
         // remove from DOM
-        this.cursor.remove();
+        this.cursorWrapper.remove();
 
         // remove instance
         window.CSSCursorController.remove(this.id);

@@ -21,24 +21,9 @@ section {
 }
 
 
-/* Cursor */
-.css-cursor {
-  transform: translate(-50%, -50%);
-}
-
-.css-cursor:not(.in-viewport) {
-  opacity: 0;
-}
-
-.css-cursor-inner {
-  box-shadow: 0 0 0 2px rgba(0, 0, 0, .3);
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  transition: all .3s ease;
-}
-
-
+/**
+ * Custom on hover
+ */
 .css-cursor.style-grid .css-cursor-inner {
   width: 60px;
   height: 60px;

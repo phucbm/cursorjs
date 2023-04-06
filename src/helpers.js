@@ -26,7 +26,7 @@ export function getHover(selector, hoverItems){
 }
 
 export function isEnterStyleDrawn(context){
-    return context.cursor.style.width === context.style.default.width && context.cursor.style.height === context.style.default.height;
+    return context.cursorWrapper.style.width === context.style.default.width && context.cursorWrapper.style.height === context.style.default.height;
 }
 
 
@@ -43,16 +43,14 @@ export function createCursor(context){
     context.config.container.insertAdjacentHTML('beforeend', html);
 
     // assign cursor
-    context.cursor = document.querySelector(`#${context.id}`);
+    context.cursorWrapper = document.querySelector(`#${context.id}`);
+    context.cursorInner = context.cursorWrapper.firstElementChild;
 
-    // default CSS
-    Object.assign(context.cursor.style, {
-        pointerEvents: 'none',
-        zIndex: '9999',
-        position: 'fixed',
-        top: 0,
-        left: 0,
-    });
+    // wrapper CSS
+    Object.assign(context.cursorWrapper.style, context.config.wrapperCSS);
+
+    // cursor inner CSS
+    Object.assign(context.cursorInner.style, context.config.cursorCSS);
 
     if(context.config.dev) console.log(`cursor created #${context.id}`)
 }

@@ -17,7 +17,7 @@ export function watchMousePosition(context){
         pos.y += (context.mouse.y - pos.y) * context.config.speed;
 
         // set CSS
-        context.cursor.style.transform = `translate(${pos.x}px,${pos.y}px)`;
+        context.cursorWrapper.style.transform = `translate(${pos.x}px,${pos.y}px)`;
 
         // rAF
         requestAnimationFrame(loop);
@@ -49,7 +49,10 @@ function assignMouseEvents(context){
         if(context.config.dev) console.log('doc out')
 
         // update class
-        context.cursor.classList.remove('in-viewport');
+        context.cursorWrapper.classList.remove(context._class.inViewport);
+
+        // hide inner cursor
+        context.cursorInner.style.opacity = '0';
     });
 
     // enter viewport
@@ -57,7 +60,10 @@ function assignMouseEvents(context){
         if(context.config.dev) console.log('doc in')
 
         // update class
-        context.cursor.classList.add('in-viewport');
+        context.cursorWrapper.classList.add(context._class.inViewport);
+
+        // hide inner cursor
+        context.cursorInner.style.opacity = '1';
     });
 
     // moving
@@ -74,20 +80,20 @@ export function assignHoverEvents(context){
             el.classList.add(context._class.hoverEnabled);
 
             // disable cursor
-            el.style.cursor = 'none';
+            el.style.cursorWrapper = 'none';
 
             // mouse enter
             el.addEventListener("mouseenter", e => {
                 // update class
-                context.cursor.classList.add(hover.className);
-                context.cursor.classList.add(context._class.isHover);
+                context.cursorWrapper.classList.add(hover.className);
+                context.cursorWrapper.classList.add(context._class.isHover);
             });
 
             // mouse out
             el.addEventListener("mouseleave", e => {
                 // update class
-                context.cursor.classList.remove(hover.className);
-                context.cursor.classList.remove(context._class.isHover);
+                context.cursorWrapper.classList.remove(hover.className);
+                context.cursorWrapper.classList.remove(context._class.isHover);
             });
         });
     }
