@@ -5,12 +5,15 @@ export function watchMousePosition(context){
     setMousePosition(context, pos.x, pos.y);
 
     const loop = () => {
-        // lerp (https://codepen.io/rachsmith/post/animation-tip-lerp)
-        pos.x += (context.mouse.x - pos.x) * context.config.speed;
-        pos.y += (context.mouse.y - pos.y) * context.config.speed;
+        // skip update if cursor is not display
+        if(getComputedStyle(context.cursorWrapper).display !== 'none'){
+            // lerp (https://codepen.io/rachsmith/post/animation-tip-lerp)
+            pos.x += (context.mouse.x - pos.x) * context.config.speed;
+            pos.y += (context.mouse.y - pos.y) * context.config.speed;
 
-        // set CSS
-        context.cursorWrapper.style.transform = `translate(${pos.x}px,${pos.y}px)`;
+            // set CSS
+            context.cursorWrapper.style.transform = `translate(${pos.x}px,${pos.y}px)`;
+        }
 
         // rAF
         requestAnimationFrame(loop);
