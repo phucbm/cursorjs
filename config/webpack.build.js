@@ -1,35 +1,57 @@
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const {merge} = require('webpack-merge');
 const {CleanWebpackPlugin} = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const {paths, server, packageInfo, env} = require('./config');
 const path = require("path");
-const {paths, packageInfo, server, env} = require("./config");
 
 /**
- * Sample variables: "cross-env ENTRY=dev PORT=8080"
- * PORT: open a server in this port
+ * Sample variables: "cross-env ENTRY=web"
  * ENTRY: folder to start building the bundle
  */
-const port = env.PORT || '8080';
-const entryFolder = env.ENTRY || 'dev';
+const entryFolder = env.ENTRY || 'web';
 const entryPath = path.resolve(__dirname, `../${entryFolder}`);
 
 module.exports = merge(server, {
-    // Set the mode to development or production
-    mode: 'development',
+    mode: 'production',
+    devtool: false,
 
     // Where webpack looks to start building the bundle
     entry: [entryPath + '/script.js'],
 
-    // Where webpack outputs the assets and bundles
     output: {
-        path: paths.dist,
-        filename: '[name].bundle.js',
+        path: paths.build,
         publicPath: '/',
+        filename: 'js/[name].[contenthash].bundle.js',
     },
-
-    // Customize the webpack build process
+    module: {
+        rules: [
+            {
+                test: /\.(sass|scss|css)$/,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            importLoaders: 2,
+                            sourceMap: false,
+                            modules: false,
+                        },
+                    },
+                    'postcss-loader',
+                    'sass-loader',
+                ],
+            },
+        ],
+    },
     plugins: [
+        // Extracts CSS into separate files
+        new MiniCssExtractPlugin({
+            filename: 'styles/[name].[contenthash].css',
+            chunkFilename: '[id].css',
+        }),
         // Removes/cleans build folders and unused assets when rebuilding
         new CleanWebpackPlugin(),
 
@@ -58,13 +80,16 @@ module.exports = merge(server, {
             filename: 'index.html', // output file
         }),
     ],
-
-    // Spin up a server for quick development
-    devServer: {
-        historyApiFallback: true,
-        open: true,
-        compress: true,
-        hot: true,
-        port: port,
+    optimization: {
+        minimize: true,
+        minimizer: [new CssMinimizerPlugin(), '...'],
+        runtimeChunk: {
+            name: 'runtime',
+        },
     },
-});
+    performance: {
+        hints: false,
+        maxEntrypointSize: 512000,
+        maxAssetSize: 512000,
+    },
+})

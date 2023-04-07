@@ -1,55 +1,42 @@
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
-const {merge} = require('webpack-merge')
+const TerserPlugin = require('terser-webpack-plugin');
+const webpack = require('webpack');
+const {paths, packageInfo, bannerConfig, env} = require('./config');
 
-const paths = require('./paths')
-const common = require('./webpack.common')
+/**
+ * Sample variables: "cross-env TARGET=umd"
+ * TARGET: libraryTarget
+ */
+const libraryTarget = env.TARGET || 'umd';
+let filename, experiments = {}, library = undefined;
+switch(libraryTarget){
+    case "module":
+        filename = `${packageInfo.outputFilename}.module.js`;
+        experiments = {
+            outputModule: true,
+        };
+        break;
+    default:
+        //library = `${packageInfo.codeName}`;
+        filename = `${packageInfo.outputFilename}.min.js`;
+}
 
-module.exports = merge(common, {
+module.exports = {
     mode: 'production',
     devtool: false,
+    entry: paths.entry,
+    experiments,
     output: {
-        path: paths.build,
-        publicPath: '/',
-        filename: 'js/[name].[contenthash].bundle.js',
-    },
-    module: {
-        rules: [
-            {
-                test: /\.(sass|scss|css)$/,
-                use: [
-                    MiniCssExtractPlugin.loader,
-                    {
-                        loader: 'css-loader',
-                        options: {
-                            importLoaders: 2,
-                            sourceMap: false,
-                            modules: false,
-                        },
-                    },
-                    'postcss-loader',
-                    'sass-loader',
-                ],
-            },
-        ],
+        filename,
+        library,
+        libraryTarget,
+        umdNamedDefine: true,
+        // prevent error: `Uncaught ReferenceError: self is not define`
+        globalObject: 'this',
     },
     plugins: [
-        // Extracts CSS into separate files
-        new MiniCssExtractPlugin({
-            filename: 'styles/[name].[contenthash].css',
-            chunkFilename: '[id].css',
-        }),
+        new webpack.BannerPlugin(bannerConfig)
     ],
     optimization: {
-        minimize: true,
-        minimizer: [new CssMinimizerPlugin(), '...'],
-        runtimeChunk: {
-            name: 'runtime',
-        },
+        minimizer: [new TerserPlugin({extractComments: false})],
     },
-    performance: {
-        hints: false,
-        maxEntrypointSize: 512000,
-        maxAssetSize: 512000,
-    },
-})
+};

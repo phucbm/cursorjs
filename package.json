@@ -1,31 +1,37 @@
 {
-  "name": "gsap-cursor",
-  "version": "1.0.0",
-  "description": "JavaScript + GreenSock customize mouse cursor with inertia for modern browsers.",
+  "name": "@phucbm/cursorjs",
+  "outputFilename": "cursorjs",
+  "prettyName": "Cursor.js",
+  "codeName": "Cursor",
+  "version": "2.0.0",
+  "description": "Create custom mouse cursor with pure vanilla JS (4kb) and CSS (optional) with no dependency.",
+  "homepage": "https://github.com/phucbm/cursorjs",
   "repository": {
     "type": "git",
     "url": "git@github.com:phucbm/cursorjs"
   },
   "author": {
     "name": "phucbm",
-    "email": "hiphucbui@gmail.com",
-    "url": "https://buiminhphuc.com/"
+    "url": "https://github.com/phucbm"
   },
   "keywords": [
-    "gsap",
-    "cursor"
+    "phucbm",
+    "javascript",
+    "es6"
   ],
+  "main": "./dist/cursorjs.module.js",
   "license": "MIT",
-  "main": "./dist/gsap-cursor.module.js",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack serve --config config/webpack.dev.js",
-    "build": "cross-env NODE_ENV=production webpack --config config/webpack.umd.js",
-    "publish": "cross-env NODE_ENV=production webpack --config config/webpack.umd.js & npm publish"
+    "dev": "webpack serve --config config/webpack.dev.js",
+    "build": "cross-env ENTRY=dev webpack --config config/webpack.build.js",
+    "prod": "webpack --config config/webpack.prod.js && cross-env TARGET=module webpack --config config/webpack.prod.js",
+    "publish": "npm run prod & npm publish"
   },
   "devDependencies": {
     "@babel/core": "^7.15.8",
     "@babel/plugin-proposal-class-properties": "^7.14.5",
     "@babel/preset-env": "^7.15.8",
+    "@viivue/atomic-css": "^1.1.7",
     "babel-loader": "^8.2.2",
     "babel-preset-es2015": "^6.24.1",
     "clean-webpack-plugin": "^4.0.0",
@@ -33,7 +39,7 @@
     "cross-env": "^7.0.3",
     "css-loader": "^6.4.0",
     "css-minimizer-webpack-plugin": "^3.1.1",
-    "dat.gui": "^0.7.9",
+    "honcau": "^0.0.2",
     "html-loader": "^3.1.0",
     "html-webpack-plugin": "^5.3.2",
     "mini-css-extract-plugin": "^2.4.2",
@@ -47,8 +53,5 @@
     "webpack-cli": "^4.9.0",
     "webpack-dev-server": "^4.3.1",
     "webpack-merge": "^5.8.0"
-  },
-  "dependencies": {
-    "gsap": "^3.10.4"
   }
 }

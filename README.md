@@ -1,131 +1,170 @@
 # 🦄 Cursor.js
 
-> ### Customize mouse cursor completely with JS, powered by GSAP.
+> Create custom mouse cursor with pure vanilla JS (4kb) and CSS (optional) with no dependency.
 
-[![npm-version](https://badgen.net/npm/v/gsap-cursor?cache=600)](https://www.npmjs.com/package/gsap-cursor)
-[![total-download](https://badgen.net/npm/dt/gsap-cursor?cache=600)](https://www.npmjs.com/package/gsap-cursor)
+[![npm-version](https://badgen.net/npm/v/%40phucbm%2Fcursorjs?cache=600)](https://www.npmjs.com/package/%40phucbm%2Fcursorjs)
+[![total-download](https://badgen.net/npm/dt/%40phucbm%2Fcursorjs?cache=600)](https://www.npmjs.com/package/%40phucbm%2Fcursorjs)
 [![Made in Vietnam](https://raw.githubusercontent.com/webuild-community/badge/master/svg/made.svg)](https://webuild.community)
-[![jsdelivr](https://data.jsdelivr.com/v1/package/gh/phucbm/Cursor.js/badge?style=rounded)](https://www.jsdelivr.com/package/gh/phucbm/Cursor.js)
-[![license](https://badgen.net/github/license/phucbm/Cursor.js/)](https://github.com/phucbm/Cursor.js/blob/main/LICENSE)
+[![jsdelivr](https://data.jsdelivr.com/v1/package/gh/phucbm/cursorjs/badge?style=rounded)](https://www.jsdelivr.com/package/gh/phucbm/cursorjs)
+[![license](https://badgen.net/github/license/phucbm/cursorjs/)](https://github.com/phucbm/cursorjs/blob/main/LICENSE)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/9d9b7120-8c9d-486d-b53e-7fa938ce5c78/deploy-status)](https://app.netlify.com/sites/cursorjs/deploys)
 
 Key features:
 
-- Customize native cursor with JS.
-- Update cursor style when hover on specific elements.
+- Cursor moving with easing (no dependencies)
+- Extremely light-weight (4kb)
+- One cursor - unlimited styles on hover
 
 Demo 👉 https://cursorjs.netlify.app
 
-![Screen Recording 2022-01-23 at 20 44 49](https://user-images.githubusercontent.com/14942380/150682675-cda01eca-f8d9-4faf-9cd3-611a9ca550e2.gif)
+## Getting started
 
-## Installation
+### Installation
 
-### From NPM
+#### NPM Package
 
 ```shell
-npm i gsap-cursor
+npm i @phucbm/cursorjs
 ```
+
+Import
 
 ```js
-import {Cursor} from "gsap-cursor";
-
-new Cursor();
+import "@phucbm/cursorjs";
 ```
 
-### From CDN
+#### Download
+
+👉 Self hosted - [Download the latest release](https://github.com/phucbm/cursorjs/releases/latest)
 
 ```html
-<!-- UNPKG (GSAP included) -->
-<script src="https://unpkg.com/gsap-cursor/dist/gsap-cursor.min.js"></script>
+
+<script src="./cursorjs.min.js"></script>
 ```
 
-```js
-new Cursor();
+👉 CDN Hosted - [jsDelivr](https://www.jsdelivr.com/package/gh/phucbm/cursorjs)
+
+```html
+<!-- JS (10KB) -->
+<script src="https://cdn.jsdelivr.net/gh/phucbm/cursorjs@latest/dist/cursorjs.min.js"></script>
 ```
 
-## Configuration
+### Initialize
 
 ```js
-const config = {
-    speed: .2, // the smaller the slower
-    className: '', // custom class for the cursor
-    style: {
-        width: '15px',
-        height: '15px',
-        borderRadius: '50%',
-        backgroundColor: `rgba(0, 0, 0, .5)`
-    }
-};
-const cursor = new Cursor(config);
-```
+// with default style
+Cursorjs.create();
 
-Custom style on hover
-
-```js
-const config = {
-    speed: .2, // the smaller the slower
-    className: '', // custom class for the cursor
-    style: {
-        width: '15px',
-        height: '15px',
-        borderRadius: '50%',
-        backgroundColor: `rgba(0, 0, 0, .5)`
-    },
+// with more options
+Cursorjs.create({
+    id: 'my-cursor',
+    innerHTML: '<i class="icon-cursor"></i>',
     hover: [
-        // text
         {
-            selector: 'p',
-            in: {
-                borderRadius: 0,
-                width: '2px',
-                height: '30px',
-                backgroundColor: 'rgba(0,0,0,.3)'
-            }
+            selectors: '.items',
+            className: 'my-style-class'
         },
-        // clickable elements
+    ]
+});
+```
+
+## Docs
+
+### Cursor options
+
+| Name             | Type        | Default                   | Description                                                      |
+|------------------|-------------|---------------------------|------------------------------------------------------------------|
+| id               | string      | `"css-cursor-<uniqueID>"` | Set ID to get instance                                           |
+| speed            | float       | `0.2`                     | Cursor easing speed, the smaller, the slower                     |
+| container        | DOM element | `document.body`           | Where to append cursor HTML                                      |
+| className        | string      | `""`                      | Class for cursor                                                 |
+| innerHTML        | string      | `""`                      | Inner HTML for cursor                                            |
+| classInViewport  | string      | `""`                      | Class when cursor is in viewport                                 |
+| matchMedia       | string      | `"(hover:hover)"`         | Only init if match this media                                    |
+| hoverPrefixClass | string      | `""`                      | Prefix for hover class.                                          |
+| hover            | string      | `[]`                      | Actions when hover on specific elements. See Hover object below. |
+| wrapperCSS       | CSS object  | `{...}`                   | Default style for cursor wrapper (*)                             |
+| cursorCSS        | CSS object  | `{...}`                   | Default style for cursor (*)                                     |
+
+(*) default CSS
+
+```js
+const options = {
+    wrapperCSS: {
+        pointerEvents: 'none',
+        zIndex: '9999',
+        position: 'fixed',
+        top: 0,
+        left: 0,
+    },
+    cursorCSS: {
+        boxShadow: '0 0 0 2px rgba(0, 0, 0, .3)',
+        width: '40px',
+        height: '40px',
+        borderRadius: '50%',
+        transition: 'all .3s ease',
+        position: 'absolute',
+        transform: 'translate(-50%,-50%)'
+    }
+}
+```
+
+### Hover object
+
+| Name      | Type   | Default  | Description                                      |
+|-----------|--------|----------|--------------------------------------------------|
+| selectors | string | `""`     | CSS selector, multiple elements is supported     |
+| className | string | `""`     | Add this class to cursor when hover on selectors |
+| cursor    | string | `"none"` | CSS cursor when hover on selectors               |
+
+```js
+// sample hover array
+const options = {
+    hover: [
         {
-            selector: 'a, button',
-            magnetic: true,
-            in: data => {
-                gsap.to(data.cursor, {
-                    width: data.hoverTarget.offsetWidth + 6,
-                    height: data.hoverTarget.offsetHeight + 4,
-                    borderRadius: '4px',
-                    backgroundColor: 'rgba(0,0,0,.05)'
-                });
-            }
+            selectors: '.item-a, .item-b',
+            className: 'is-hover-on-items',
+            cursor: 'pointer',
+        },
+        {
+            selectors: '.item-c',
+            className: 'is-hover-on-item-c',
+            cursor: 'none',
         }
     ]
-};
-const cursor = new Cursor(config);
+}
+```
+
+## Methods
+
+```js
+const cursor = Cursorjs.get('my-cursor');
+
+// remove cursor from DOM
+cursor.destroy();
+
+// check new hover selectors, useful when new items are loaded via AJAX
+cursor.refresh();
 ```
 
 ## Deployment
 
-### Development
-
 ```shell
-npm install
-```
-
-```shell
+# Run dev server
 npm run dev
-```
 
-### Production
+# Generate UMD and module version
+npm run prod
 
-```shell
+# Build production site
 npm run build
-```
 
-### Publish to NPM
-
-```shell
+# Generate UMD and module version then publish NPM package
 npm run publish
 ```
 
 ## License
 
-[MIT License](https://github.com/phucbm/Cursor.js/blob/main/LICENSE)
+[MIT License](https://github.com/phucbm/cursorjs/blob/main/LICENSE)
 
-Copyright (c) 2022 Minh-Phuc Bui
+Copyright (c) 2023 @phucbm

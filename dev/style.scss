@@ -1,0 +1,65 @@
+/* Stylesheet */
+section {
+  margin-bottom: 80px;
+}
+
+/* Box */
+.cursorjs-box {
+  background: springgreen;
+  aspect-ratio: 16/9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2em;
+  font-weight: 700;
+}
+
+/* Grid demo */
+.cursorjs-grid-demo article {
+  aspect-ratio: 3/2;
+}
+
+/* Image */
+.cursorjs-image img {
+  aspect-ratio: 1280/560;
+  width: 100%;
+}
+
+
+/**
+ * Custom on hover
+ */
+/* default */
+#cursor-dot.default .css-cursor-inner {
+  opacity: 0 !important;
+}
+
+/* grid */
+#cursor-dot.grid .css-cursor-inner {
+  width: 20px !important;
+  height: 20px !important;
+  mix-blend-mode: difference;
+  opacity: .5 !important;
+}
+
+/* image */
+#cursor-ring.image .css-cursor-inner {
+  width: 83px !important;
+  height: 83px !important;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, .5) !important;
+}
+
+#cursor-dot.image .css-cursor-inner {
+  width: 80px !important;
+  height: 80px !important;
+  opacity: .5 !important;
+  mix-blend-mode: difference;
+  background-color: #8f97f8 !important;
+}
+
+@media only screen and (max-width: 1180px) {
+  #cursor-ring,
+  #cursor-dot {
+    display: none;
+  }
+}
