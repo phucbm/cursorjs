@@ -4,7 +4,7 @@
   "prettyName": "Cursor.js",
   "codeName": "Cursor",
   "version": "2.0.0",
-  "description": "Create custom mouse cursor with pure vanilla JS + CSS",
+  "description": "Create custom mouse cursor with pure vanilla JS (4kb) and CSS (optional) with no dependency.",
   "homepage": "https://github.com/phucbm/cursorjs",
   "repository": {
     "type": "git",

@@ -1,6 +1,6 @@
 # 🦄 Cursor.js
 
-> Create custom mouse cursor with pure vanilla JS + CSS
+> Create custom mouse cursor with pure vanilla JS (4kb) and CSS (optional) with no dependency.
 
 [![npm-version](https://badgen.net/npm/v/%40phucbm%2Fcursorjs?cache=600)](https://www.npmjs.com/package/%40phucbm%2Fcursorjs)
 [![total-download](https://badgen.net/npm/dt/%40phucbm%2Fcursorjs?cache=600)](https://www.npmjs.com/package/%40phucbm%2Fcursorjs)
@@ -68,13 +68,84 @@ Cursorjs.create({
 });
 ```
 
-## Options
+## Docs
 
-### Selectors
+### Cursor options
 
-| Name         | Type        | Default               | Description                                |
-|--------------|-------------|-----------------------|--------------------------------------------|
-| el           | DOM element | `[data-eta]`          | Wrapper element                            |
+| Name             | Type        | Default                   | Description                                                      |
+|------------------|-------------|---------------------------|------------------------------------------------------------------|
+| id               | string      | `"css-cursor-<uniqueID>"` | Set ID to get instance                                           |
+| speed            | float       | `0.2`                     | Cursor easing speed, the smaller, the slower                     |
+| container        | DOM element | `document.body`           | Where to append cursor HTML                                      |
+| className        | string      | `""`                      | Class for cursor                                                 |
+| innerHTML        | string      | `""`                      | Inner HTML for cursor                                            |
+| classInViewport  | string      | `""`                      | Class when cursor is in viewport                                 |
+| matchMedia       | string      | `"(hover:hover)"`         | Only init if match this media                                    |
+| hoverPrefixClass | string      | `""`                      | Prefix for hover class.                                          |
+| hover            | string      | `[]`                      | Actions when hover on specific elements. See Hover object below. |
+| wrapperCSS       | CSS object  | `{...}`                   | Default style for cursor wrapper (*)                             |
+| cursorCSS        | CSS object  | `{...}`                   | Default style for cursor (*)                                     |
+
+(*) default CSS
+
+```js
+const options = {
+    wrapperCSS: {
+        pointerEvents: 'none',
+        zIndex: '9999',
+        position: 'fixed',
+        top: 0,
+        left: 0,
+    },
+    cursorCSS: {
+        boxShadow: '0 0 0 2px rgba(0, 0, 0, .3)',
+        width: '40px',
+        height: '40px',
+        borderRadius: '50%',
+        transition: 'all .3s ease',
+        position: 'absolute',
+        transform: 'translate(-50%,-50%)'
+    }
+}
+```
+
+### Hover object
+
+| Name      | Type   | Default  | Description                                      |
+|-----------|--------|----------|--------------------------------------------------|
+| selectors | string | `""`     | CSS selector, multiple elements is supported     |
+| className | string | `""`     | Add this class to cursor when hover on selectors |
+| cursor    | string | `"none"` | CSS cursor when hover on selectors               |
+
+```js
+// sample hover array
+const options = {
+    hover: [
+        {
+            selectors: '.item-a, .item-b',
+            className: 'is-hover-on-items',
+            cursor: 'pointer',
+        },
+        {
+            selectors: '.item-c',
+            className: 'is-hover-on-item-c',
+            cursor: 'none',
+        }
+    ]
+}
+```
+
+## Methods
+
+```js
+const cursor = Cursorjs.get('my-cursor');
+
+// remove cursor from DOM
+cursor.destroy();
+
+// check new hover selectors, useful when new items are loaded via AJAX
+cursor.refresh();
+```
 
 ## Deployment
 
