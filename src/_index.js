@@ -6,7 +6,7 @@ class Cursor{
     constructor(options){
         // config
         this.config = {
-            dev: false, // show console log
+            dev: true, // show console log
 
             id: uniqueId('css-cursor-'),
             speed: .2, // cursor easing speed, the smaller, the slower
@@ -15,6 +15,9 @@ class Cursor{
             className: '',
             innerHTML: '',
             classInViewport: '',
+
+            // init condition
+            matchMedia: '(hover:hover)', // only init if match
 
             // default style
             wrapperCSS: {},
@@ -32,6 +35,11 @@ class Cursor{
             },
 
             ...options,
+        }
+        // skip init if media is not matched
+        if(!window.matchMedia(this.config.matchMedia).matches){
+            if(this.config.dev) console.log(`Cursor ${this.config.id} not init due to unmatched media`, this.config.matchMedia);
+            return;
         }
 
         if(!this.config.container){
