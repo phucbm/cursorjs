@@ -75,17 +75,20 @@ export function assignHoverEvents(context){
             // update cursor
             el.style.cursor = hover.cursor ? hover.cursor : 'none';
 
+            // class name
+            const className = context.config.hoverPrefixClass + hover.className;
+
             // mouse enter
             el.addEventListener("mouseenter", e => {
                 // update class
-                context.cursorWrapper.classList.add(hover.className);
+                context.cursorWrapper.classList.add(className);
                 context.cursorWrapper.classList.add(context._class.isHover);
             });
 
             // mouse out
             el.addEventListener("mouseleave", e => {
                 // update class
-                context.cursorWrapper.classList.remove(hover.className);
+                context.cursorWrapper.classList.remove(className);
                 context.cursorWrapper.classList.remove(context._class.isHover);
             });
         });

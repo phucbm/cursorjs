@@ -17,6 +17,30 @@ class Cursor{
             classInViewport: '',
 
             // default style
+            wrapperCSS: {},
+            cursorCSS: {},
+
+            // add class to cursor when hovering on specific items
+            hoverPrefixClass: '',
+            hover: [],
+            // selectors: '.item', // items to detect cursor hover
+            // className: 'is-item-hover' // class added on hover
+            // cursor: 'none' // native cursor style on hover
+
+            // on cursor position update
+            onUpdate: data => {
+            },
+
+            ...options,
+        }
+
+        if(!this.config.container){
+            console.warn('Container is not defined!', this.config.container);
+            return;
+        }
+
+        // default styles
+        this._style = {
             wrapperCSS: {
                 pointerEvents: 'none',
                 zIndex: '9999',
@@ -33,28 +57,9 @@ class Cursor{
                 position: 'absolute',
                 transform: 'translate(-50%,-50%)'
             },
-
-            // add class to cursor when hovering on specific items
-            hover: [],
-            // selectors: '.item', // items to detect cursor hover
-            // className: 'is-item-hover' // class added on hover
-            // cursor: 'none' // native cursor style on hover
-
-            // magnetic options
-            attraction: .2, // 1 is weak, 0 is strong
-            distance: 100, // magnetic area around element count from center [px]
-
-            // on cursor position update
-            onUpdate: data => {
-            },
-
-            ...options,
-        }
-
-        if(!this.config.container){
-            console.warn('Container is not defined!', this.config.container);
-            return;
-        }
+        };
+        this.config.wrapperCSS = {...this._style.wrapperCSS, ...this.config.wrapperCSS};
+        this.config.cursorCSS = {...this._style.cursorCSS, ...this.config.cursorCSS};
 
         // classes
         this._class = {
