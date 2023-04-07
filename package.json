@@ -25,7 +25,7 @@
     "dev": "webpack serve --config config/webpack.dev.js",
     "build": "cross-env ENTRY=dev webpack --config config/webpack.build.js",
     "prod": "webpack --config config/webpack.prod.js && cross-env TARGET=module webpack --config config/webpack.prod.js",
-    "publish": "npm run prod & npm publish"
+    "publish": "npm run prod & npm publish --access=public"
   },
   "devDependencies": {
     "@babel/core": "^7.15.8",
