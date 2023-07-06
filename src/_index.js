@@ -6,7 +6,7 @@ class Cursor{
     constructor(options){
         // config
         this.config = {
-            dev: true, // show console log
+            dev: false, // show console log
 
             id: uniqueId('css-cursor-'),
             speed: .2, // cursor easing speed, the smaller, the slower
