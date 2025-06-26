@@ -2,11 +2,14 @@
 
 > Create custom mouse cursor with pure vanilla JS (4kb) and CSS (optional) with no dependency.
 
-[![npm-version](https://badgen.net/npm/v/%40phucbm%2Fcursorjs?cache=600)](https://www.npmjs.com/package/%40phucbm%2Fcursorjs)
-[![total-download](https://badgen.net/npm/dt/%40phucbm%2Fcursorjs?cache=600)](https://www.npmjs.com/package/%40phucbm%2Fcursorjs)
+[![npm version](https://badgen.net/npm/v/@phucbm/cursorjs?icon=npm)](https://www.npmjs.com/package/@phucbm/cursorjs)
+[![npm downloads](https://badgen.net/npm/dm/@phucbm/cursorjs?icon=npm)](https://www.npmjs.com/package/@phucbm/cursorjs)
+[![npm dependents](https://badgen.net/npm/dependents/@phucbm/cursorjs?icon=npm)](https://www.npmjs.com/package/@phucbm/cursorjs)
+[![github stars](https://badgen.net/github/stars/phucbm/cursorjs?icon=github)](https://github.com/phucbm/cursorjs/)
+[![jsdelivr hits](https://badgen.net/jsdelivr/hits/gh/phucbm/cursorjs?icon=jsdelivr)](https://www.jsdelivr.com/package/gh/phucbm/cursorjs)
+[![jsdelivr npm rank](https://badgen.net/jsdelivr/rank/npm/@phucbm/cursorjs?icon=npm)](https://www.npmjs.com/package/@phucbm/cursorjs)
+[![github license](https://badgen.net/github/license/phucbm/cursorjs?icon=github)](https://github.com/phucbm/cursorjs/blob/main/LICENSE)
 [![Made in Vietnam](https://raw.githubusercontent.com/webuild-community/badge/master/svg/made.svg)](https://webuild.community)
-[![jsdelivr](https://data.jsdelivr.com/v1/package/gh/phucbm/cursorjs/badge?style=rounded)](https://www.jsdelivr.com/package/gh/phucbm/cursorjs)
-[![license](https://badgen.net/github/license/phucbm/cursorjs/)](https://github.com/phucbm/cursorjs/blob/main/LICENSE)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/9d9b7120-8c9d-486d-b53e-7fa938ce5c78/deploy-status)](https://app.netlify.com/sites/cursorjs/deploys)
 
 Key features:
