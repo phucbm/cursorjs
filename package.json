@@ -20,6 +20,9 @@
     "es6"
   ],
   "main": "./dist/cursorjs.module.js",
+  "files": [
+    "dist"
+  ],
   "license": "MIT",
   "scripts": {
     "dev": "webpack serve --config config/webpack.dev.js",
