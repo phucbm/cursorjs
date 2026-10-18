@@ -36,6 +36,8 @@ class Cursor{
 
             ...options,
         }
+        this.id = this.config.id;
+
         // skip init if media is not matched
         if(!window.matchMedia(this.config.matchMedia).matches){
             if(this.config.dev) console.log(`Cursor ${this.config.id} not init due to unmatched media`, this.config.matchMedia);
@@ -79,10 +81,12 @@ class Cursor{
         };
 
         // data
-        this.id = this.config.id;
         this.mouse = {x: 0, y: 0};
         this.cursorWrapper = undefined;
         this.cursorInner = undefined;
+        this._rafId = undefined;
+        this._abortController = new AbortController(); // removes all event listeners on destroy
+        this._hoverElements = new Set();
 
         createCursor(this);
         watchMousePosition(this);
@@ -99,8 +103,24 @@ class Cursor{
     }
 
     destroy(){
-        // remove from DOM
-        this.cursorWrapper.remove();
+        // cursor was not created (e.g. unmatched media)
+        if(this.cursorWrapper){
+            // stop animation loop and remove event listeners
+            cancelAnimationFrame(this._rafId);
+            this._abortController.abort();
+
+            // restore hover elements that no other cursor is watching
+            const others = window.CursorjsController.instances.filter(instance => instance !== this);
+            this._hoverElements.forEach(el => {
+                if(others.some(instance => instance._hoverElements?.has(el))) return;
+                el.classList.remove(this._class.hoverEnabled);
+                el.style.cursor = '';
+            });
+            this._hoverElements.clear();
+
+            // remove from DOM
+            this.cursorWrapper.remove();
+        }
 
         // remove instance
         window.CursorjsController.remove(this.id);
@@ -109,6 +129,8 @@ class Cursor{
     }
 
     refresh(){
+        if(!this.cursorWrapper) return;
+
         // assign new hover selectors
         assignHoverEvents(this);
     }

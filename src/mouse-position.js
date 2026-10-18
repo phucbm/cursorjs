@@ -16,7 +16,7 @@ export function watchMousePosition(context){
         }
 
         // rAF
-        requestAnimationFrame(loop);
+        context._rafId = requestAnimationFrame(loop);
     }
     loop();
 }
@@ -40,6 +40,8 @@ export function assignEventListeners(context){
 
 
 function assignMouseEvents(context){
+    const {signal} = context._abortController;
+
     // leave viewport
     document.addEventListener("mouseout", e => {
         if(context.config.dev) console.log('doc out')
@@ -49,7 +51,7 @@ function assignMouseEvents(context){
 
         // hide inner cursor
         context.cursorInner.style.opacity = '0';
-    });
+    }, {signal});
 
     // enter viewport
     document.addEventListener("mouseover", e => {
@@ -60,19 +62,25 @@ function assignMouseEvents(context){
 
         // hide inner cursor
         context.cursorInner.style.opacity = '1';
-    });
+    }, {signal});
 
     // moving
     window.addEventListener("mousemove", e => {
         setMousePosition(context, e.x, e.y);
-    });
+    }, {signal});
 }
 
 export function assignHoverEvents(context){
+    const {signal} = context._abortController;
+
     // hover events
     for(const hover of context.config.hover){
-        document.querySelectorAll(hover.selectors + `:not(${context._class.hoverEnabled})`).forEach(el => {
+        document.querySelectorAll(hover.selectors).forEach(el => {
+            // skip elements this cursor already watches (tracked per instance, so other cursors can watch them too)
+            if(context._hoverElements.has(el)) return;
+
             // flag
+            context._hoverElements.add(el);
             el.classList.add(context._class.hoverEnabled);
 
             // update cursor
@@ -86,14 +94,14 @@ export function assignHoverEvents(context){
                 // update class
                 context.cursorWrapper.classList.add(className);
                 context.cursorWrapper.classList.add(context._class.isHover);
-            });
+            }, {signal});
 
             // mouse out
             el.addEventListener("mouseleave", e => {
                 // update class
                 context.cursorWrapper.classList.remove(className);
                 context.cursorWrapper.classList.remove(context._class.isHover);
-            });
+            }, {signal});
         });
     }
 }

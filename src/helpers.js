@@ -1,28 +1,3 @@
-import {distanceFromMouseToEl, getOffset} from "./utils";
-
-
-/**
- * Get magnetic position
- * @param context
- * @param el
- * @returns {{x: *, y: *}|*}
- */
-export function getMagneticPosition(context, el){
-    if(typeof el === 'undefined') return context.mouse;
-
-    const centerX = getOffset(el).left + el.offsetWidth / 2,
-        centerY = getOffset(el).top + el.offsetHeight / 2,
-        x = Math.floor(centerX - context.mouse.x) * -1 * context.config.attraction,
-        y = Math.floor(centerY - context.mouse.y) * -1 * context.config.attraction,
-        mouseDistance = distanceFromMouseToEl(el, context.mouse.x, context.mouse.y);
-
-    if(mouseDistance < context.config.distance){
-        return {x: x + centerX, y: y + centerY};
-    }
-    return context.mouse;
-}
-
-
 /**
  * Create cursor dev and append to body
  */
