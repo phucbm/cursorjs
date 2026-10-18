@@ -4,7 +4,6 @@
 
 [![npm version](https://badgen.net/npm/v/@phucbm/cursorjs?icon=npm)](https://www.npmjs.com/package/@phucbm/cursorjs)
 [![npm downloads](https://badgen.net/npm/dm/@phucbm/cursorjs?icon=npm)](https://www.npmjs.com/package/@phucbm/cursorjs)
-[![npm dependents](https://badgen.net/npm/dependents/@phucbm/cursorjs?icon=npm)](https://www.npmjs.com/package/@phucbm/cursorjs)
 [![github stars](https://badgen.net/github/stars/phucbm/cursorjs?icon=github)](https://github.com/phucbm/cursorjs/)
 [![jsdelivr hits](https://badgen.net/jsdelivr/hits/gh/phucbm/cursorjs?icon=jsdelivr)](https://www.jsdelivr.com/package/gh/phucbm/cursorjs)
 [![jsdelivr npm rank](https://badgen.net/jsdelivr/rank/npm/@phucbm/cursorjs?icon=npm)](https://www.npmjs.com/package/@phucbm/cursorjs)
@@ -153,18 +152,25 @@ cursor.refresh();
 ## Deployment
 
 ```shell
+# Install dependencies
+pnpm install
+
 # Run dev server
-npm run dev
+pnpm dev
 
 # Generate UMD and module version
-npm run prod
+pnpm prod
 
 # Build production site
-npm run build
-
-# Generate UMD and module version then publish NPM package
-npm run publish
+pnpm build
 ```
+
+### Publish
+
+Publishing to NPM is automated by [publish-npm-action](https://github.com/phucbm/publish-npm-action)
+via [OIDC trusted publishing](https://docs.npmjs.com/trusted-publishers).
+Create a GitHub release with a tag like `v2.0.2`: the workflow sets `package.json` to that version, builds `dist/`, commits
+both back to `main` and publishes the package.
 
 ## License
 
