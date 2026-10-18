@@ -1,7 +1,6 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-const {merge} = require('webpack-merge');
-const {CleanWebpackPlugin} = require("clean-webpack-plugin");
+const {mergeWithRules} = require('webpack-merge');
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const {paths, server, packageInfo, env} = require('./config');
@@ -14,7 +13,8 @@ const path = require("path");
 const entryFolder = env.ENTRY || 'web';
 const entryPath = path.resolve(__dirname, `../${entryFolder}`);
 
-module.exports = merge(server, {
+// replace (not append) loaders of rules with the same test
+module.exports = mergeWithRules({module: {rules: {test: 'match', use: 'replace'}}})(server, {
     mode: 'production',
     devtool: false,
 
@@ -23,7 +23,9 @@ module.exports = merge(server, {
 
     output: {
         path: paths.build,
-        publicPath: '/',
+        // relative paths, so the site works in a sub folder (GitHub Pages: /cursorjs/)
+        publicPath: 'auto',
+        clean: true,
         filename: 'js/[name].[contenthash].bundle.js',
     },
     module: {
@@ -52,9 +54,6 @@ module.exports = merge(server, {
             filename: 'styles/[name].[contenthash].css',
             chunkFilename: '[id].css',
         }),
-        // Removes/cleans build folders and unused assets when rebuilding
-        new CleanWebpackPlugin(),
-
         // Copies files from target to destination folder
         new CopyWebpackPlugin({
             patterns: [
