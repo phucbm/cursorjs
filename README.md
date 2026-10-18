@@ -9,7 +9,7 @@
 [![jsdelivr npm rank](https://badgen.net/jsdelivr/rank/npm/@phucbm/cursorjs?icon=npm)](https://www.npmjs.com/package/@phucbm/cursorjs)
 [![github license](https://badgen.net/github/license/phucbm/cursorjs?icon=github)](https://github.com/phucbm/cursorjs/blob/main/LICENSE)
 [![Made in Vietnam](https://raw.githubusercontent.com/webuild-community/badge/master/svg/made.svg)](https://webuild.community)
-[![Netlify Status](https://api.netlify.com/api/v1/badges/9d9b7120-8c9d-486d-b53e-7fa938ce5c78/deploy-status)](https://app.netlify.com/sites/cursorjs/deploys)
+[![Deploy demo](https://github.com/phucbm/cursorjs/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/phucbm/cursorjs/actions/workflows/deploy-pages.yml)
 
 Key features:
 
@@ -17,7 +17,7 @@ Key features:
 - Extremely light-weight (4kb)
 - One cursor - unlimited styles on hover
 
-Demo 👉 https://cursorjs.netlify.app
+Demo 👉 https://phucbm.github.io/cursorjs/
 
 ## Getting started
 
@@ -164,6 +164,8 @@ pnpm prod
 # Build production site
 pnpm build
 ```
+
+The demo site is deployed to GitHub Pages on every push to `main`.
 
 ### Publish
 

@@ -23,7 +23,8 @@ module.exports = mergeWithRules({module: {rules: {test: 'match', use: 'replace'}
 
     output: {
         path: paths.build,
-        publicPath: '/',
+        // relative paths, so the site works in a sub folder (GitHub Pages: /cursorjs/)
+        publicPath: 'auto',
         clean: true,
         filename: 'js/[name].[contenthash].bundle.js',
     },
